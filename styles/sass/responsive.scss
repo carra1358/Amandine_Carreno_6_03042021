@@ -1,0 +1,68 @@
+@media (max-width: 320px) {
+    .navigation{
+      height: 5em;
+
+    }
+    .card-tagwrapper{
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+}
+
+@media (min-width: 1024px){
+
+  header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3%;
+    margin-top: 0;
+    width: 68%;
+  }
+
+  #logo{
+    width: 18%;
+    margin-top: 2%;
+  }
+
+  .navigation{
+   align-items: center;
+  }
+
+  .tag{
+    font-size: 1vw;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -ms-border-radius: 25px;
+    -o-border-radius: 25px;
+}
+
+.fa-hashtag {
+  font-size: 1vw;
+}
+
+  h1{
+    font-size: 2vw;
+    right: 5%;
+    top: 4%;
+    margin: 0;
+  }
+
+
+  .card-wrap{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .card{
+    width: 25%;
+    margin:2%;
+  }
+
+
+
+}

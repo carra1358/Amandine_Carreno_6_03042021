@@ -7,22 +7,22 @@
     <title>Fisheye</title>
 </head>
 <body>
+    <div id="anchor-main"><a href="#main">Passer au contenu</a></div> 
+
     <header role="banner">
 
-        <div><a href="#main">Passer au contenu</a></div> 
-
-        <div><a href="index.html"><img src="images/logo.png" alt="home page"></a></div>
+        <div id="logo"><a href="index.html"><img src="images/logo.png" alt="home page"></a></div>
            
         <nav role="navigation" aria-label="main navigation">
-            <ul>
-                <li><a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Portrait</a></li>
-                <li><a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Art</a></li>
-                <li><a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Fashion</a></li>
-                <li><a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Architecture</a></li>
-                <li><a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Travel</a></li>
-                <li><a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Sport</a></li>
-                <li><a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Animals</a></li>
-                <li><a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Events</a></li>
+            <ul class="navigation">
+                <li><a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Portrait</a></li>
+                <li><a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Art</a></li>
+                <li><a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Fashion</a></li>
+                <li><a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Architecture</a></li>
+                <li><a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Travel</a></li>
+                <li><a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Sport</a></li>
+                <li><a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Animals</a></li>
+                <li><a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Events</a></li>
             </ul>
         </nav>
         
@@ -32,20 +32,107 @@
 
         <h1>Nos photographes</h1>
 
-        <ul>
-            <li>
+        <ul class="card-wrap">
+            <li class="card">
+
+                <a href="mimikeel.html">
                 <div class="profil-img"><img src="images/Mimi/Portrait_Nora.jpg" alt=""></div> 
-                <h2><a href="">Mimi Keel</a></h2>
+                <h2>Mimi Keel</h2>
+                </a>
                 <p>
-                    <span>London, UK</span>
-                    <span>Voir le beau dans le quotidien</span>
-                    <span>400€/jour</span>
+                    <span class="ville">London, UK</span><br>
+                    <span class="quote">Voir le beau dans le quotidien</span><br>
+                    <span class="prix">400€/jour</span><br>
                 </p>
-                <div>
-                    <a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Portrait</a>
-                    <a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Events</a>
-                    <a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Travel</a>
-                    <a href=""><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Animals</a>
+                <div class="card-tagwrapper">
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Portrait</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Events</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Travel</a>
+                    <a href=""class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Animals</a>
+                </div>
+            </li>
+
+            <li class="card">
+
+                <a href="ellierosewilkens.html">
+                <div class="profil-img"><img src="images/Ellie Rose/Architecture_Connected_Curves.jpg" alt=""></div> 
+                <h2>Ellie-Rose Wilkens</h2>
+                </a>
+                <p>
+                    <span class="ville">Paris, France</span><br>
+                    <span class="quote">Travaille sur des compositions complexes</span><br>
+                    <span class="prix">250€/jour</span><br>
+                </p>
+                <div class="card-tagwrapper">
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Sport</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Architecture</a>
+                </div>
+            </li>
+            <li class="card">
+
+                <a href="tracygalindo.html">
+                <div class="profil-img"><img src="images/Tracy/Fashion_Urban_Jungle.jpg" alt=""></div> 
+                <h2>Tracy Galindo</h2>
+                </a>
+                <p>
+                    <span class="ville">Montreal, Canada</span><br>
+                    <span class="quote">photographe freelance</span><br>
+                    <span class="prix">500€/jour</span><br>
+                </p>
+                <div class="card-tagwrapper">
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Art</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Fashion</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Events</a>
+                </div>
+            </li>
+            <li class="card">
+
+                <a href="nabeelbradford.html">
+                <div class="profil-img"><img src="images/Nabeel/Travel_Outdoor_Baths.jpg" alt=""></div> 
+                <h2>Nabeel Bradford</h2>
+                </a>
+                <p>
+                    <span class="ville">Mexico City, Mexico</span><br>
+                    <span class="quote">Je vais toujours de l'avant</span><br>
+                    <span class="prix">350€/jour</span><br>
+                </p>
+                <div class="card-tagwrapper">
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Travel</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Portrait</a>
+                </div>
+            </li>
+            <li class="card">
+
+                <a href="rhodedubois.html">
+                <div class="profil-img"><img src="images/Rhode/Fashion_Melody_Red_on_Stripes.jpg" alt=""></div> 
+                <h2>Rhode Dubois</h2>
+                </a>
+                <p>
+                    <span class="ville">Barcelona, Spain</span><br>
+                    <span class="quote">Créatrice de souvenirs</span><br>
+                    <span class="prix">375€/jour</span><br>
+                </p>
+                <div class="card-tagwrapper">
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Sport</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Fashion</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Events</a>
+                    <a href=""class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Animals</a>
+                </div>
+            </li>
+            <li class="card">
+
+                <a href="marcelnikolic.html">
+                <div class="profil-img"><img src="images/Marcel/Travel_Tower.jpg" alt=""></div> 
+                <h2>Marcel Nikolic</h2>
+                </a>
+                <p>
+                    <span class="ville">Berlin, Germany</span><br>
+                    <span class="quote">Toujours à la recherche de La photo</span><br>
+                    <span class="prix">300€/jour</span><br>
+                </p>
+                <div class="card-tagwrapper">
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Architecture</a>
+                    <a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>Travel</a>
                 </div>
             </li>
         </ul>
