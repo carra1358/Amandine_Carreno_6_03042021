@@ -57,6 +57,26 @@ module.exports = {
         filename: "mimikeel.html",
         template: "./pages/mimikeel.html"
     }),
+    new HtmlWebpackPlugin({
+      filename: "ellierosewilkens.html",
+      template: "./pages/ellierosewilkens.html"
+  }),
+  new HtmlWebpackPlugin({
+    filename: "tracygalindo.html",
+    template: "./pages/tracygalindo.html"
+}),
+new HtmlWebpackPlugin({
+  filename: "nabeelbradford.html",
+  template: "./pages/nabeelbradford.html"
+}),
+new HtmlWebpackPlugin({
+  filename: "rhodedubois.html",
+  template: "./pages/rhodedubois.html"
+}),
+new HtmlWebpackPlugin({
+  filename: "marcelnikolic.html",
+  template: "./pages/marcelnikolic.html"
+}),
 
   ],
 
