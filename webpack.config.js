@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 
 module.exports = {
@@ -10,6 +11,7 @@ module.exports = {
 
   entry: {
       index: "./src/index.js",
+      routing: "./src/routing.js"
       
   },
   output: {
@@ -53,30 +55,31 @@ module.exports = {
           filename: "index.html",
           template: "index.html"
       }),
+      
       new HtmlWebpackPlugin({
-        filename: "mimikeel.html",
-        template: "./pages/mimikeel.html"
-    }),
-    new HtmlWebpackPlugin({
-      filename: "ellierosewilkens.html",
-      template: "./pages/ellierosewilkens.html"
-  }),
-  new HtmlWebpackPlugin({
-    filename: "tracygalindo.html",
-    template: "./pages/tracygalindo.html"
-}),
-new HtmlWebpackPlugin({
-  filename: "nabeelbradford.html",
-  template: "./pages/nabeelbradford.html"
-}),
-new HtmlWebpackPlugin({
-  filename: "rhodedubois.html",
-  template: "./pages/rhodedubois.html"
-}),
-new HtmlWebpackPlugin({
-  filename: "marcelnikolic.html",
-  template: "./pages/marcelnikolic.html"
-}),
+       filename: "photographes.html",
+      template: "photographes.html"
+      }),
+
+      new ImageMinimizerPlugin({
+        minimizerOptions: {
+          plugins: [
+            ['gifsicle', { interlaced: true }],
+            ['jpegtran', { progressive: true }],
+            ['optipng', { optimizationLevel: 5 }],
+            [
+              'svgo',
+              {
+                plugins: [
+                  {
+                    removeViewBox: false,
+                  },
+                ],
+              },
+            ],
+          ],
+        },
+      }),
 
   ],
 
