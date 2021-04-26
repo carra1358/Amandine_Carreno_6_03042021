@@ -8,11 +8,11 @@ const getData = () => import("./data/data.json");
 const template = document.getElementById("nos_photographes");
 
 
-getData().then(data => {data.default.photographers.map(element => {
+getData().then(data => {data.default.photographers.map(element => { 
 
 return  template.innerHTML +=`
 <li class="card">
-<a href="photographes.html?${element.id}">
+<a href="photographes.html?id=${element.id}">
 <div class="profil-img"><img src="${"../images/PhotographersIDPhotos/"+ element.portrait}" alt=""> </div> 
 <h2>${element.name}</h2>
 </a>

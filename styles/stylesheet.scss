@@ -19,6 +19,7 @@
 $base-color: #911c1c;
 $second-color: #d3573c;
 $minor-color: #525252;
+$main-font: "dmsans";
 
 
 body{
@@ -104,8 +105,8 @@ header{
     margin: 5%;
 }
 
-h1{
-    font-family: "dmsans" ;
+#main-title{
+    font-family: $main-font ;
     color: #911c1c;
     font-size: 16px;
     position: absolute;
@@ -137,7 +138,7 @@ h2 {
 
 .card{
     margin: 5%;
-    font-family: "dmsans";
+    font-family: $main-font;
     display: block;
     display: flex ;
     flex-direction: column;
@@ -168,4 +169,146 @@ p{
     .tag{
         text-transform: lowercase;
     }
+}
+
+.galerie-img{
+    width: 100px;
+    height: 100px;
+
+img{
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+}
+
+/*pages photographes*/
+
+#photographer-profil{
+    display: flex;
+    font-family: $main-font;
+  
+    img {
+        width: 100px;
+        height: 100px;
+        
+    }
+    .profil-img{
+        height: 100%;
+        text-align: right;
+    }
+}
+
+#profil-text{
+    width: 80%;
+    font-size: 13px;
+}
+
+#photographer-tag{
+    font-size: 13px;
+    margin-top: 0.95em;
+    :first-child {
+        margin-left: 0;
+    }
+}
+
+#profil-header{
+    font-family: $main-font;
+    font-size: 36px;
+    color: $second-color;
+    margin: 0;
+}
+
+#contact-wrap{
+    width: 86%;
+    position: fixed;
+    scroll-behavior: smooth;
+    text-align: center;
+    top:90%;
+}
+
+#acces-modal{
+    color: #ffff;
+    font-family:$main-font;
+    background-color: $base-color;
+    font-size: 18px;
+    font-weight: 700;
+    border-style: none;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+main{
+   margin: 10% 5%;
+   padding-bottom: 15%;
+}
+
+.media{
+    width: 100%;
+    margin: 0;
+    margin-bottom: 5%;
+
+    img{
+        border-radius: 5px;
+        width: 100%;
+        height:  11.9em;
+        -o-object-fit: cover;
+        object-fit: cover;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+}
+}
+
+.media-info{
+ color: $base-color;
+ font-family: $main-font;
+ font-weight: 500;
+  display: flex;
+  flex-wrap: nowrap;
+ justify-content: space-between;
+ margin-top: 2%;
+ :first-child{
+     width: 70%;
+ }
+ span{
+   
+     white-space: nowrap;
+     display: block;
+ }
+}
+
+.fa-heart{
+    width: 0.9em;
+    margin-left: 3px;
+}
+
+#filter-wrap{
+    font-family: $main-font;
+    font-size: 1em;
+    margin-bottom: 2%;
+}
+
+#filter-media{
+    color: #fff;
+    padding: 0.8em;
+    border-radius: 5px;
+    background-color: $base-color;
+    border-style: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+option{
+    background-color: $base-color;
 }

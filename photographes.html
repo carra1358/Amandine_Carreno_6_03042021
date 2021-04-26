@@ -2,13 +2,36 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>photographes</title>
 </head>
 <body>
-   <div id="testdata"></div>
-   
-    <script src="./dist/routing.bundle.js"></script>
+    <header id="header-photographer" role="banner">
+
+        <div id="logo"><a href="index.html"><img src="images/logo.png" alt="home page"></a></div>
+        <div id="photographer-profil">
+        </div>
+        <div id="photographer-tag">
+        </div>
+    </header>
+    <main>
+        <div id="filter-wrap">
+            <label for="filter-media">Trier par</label>
+            <i class="fas fa-angle-down"></i>
+            <select name="filter" id="filter-media">
+                <option value="popularite">Popularité</option>
+                <option value="date">Date</option>
+                <option value="titre">Titre</option>
+            </select>
+        </div>
+     
+        <section id="galerie-media">
+        </section>
+           <section id="contact-wrap">
+            <button id="acces-modal">Contactez-moi</button>
+        </section>
+    </main>
+    <script src="./dist/photographes.bundle.js"></script>
 </body>
 </html>

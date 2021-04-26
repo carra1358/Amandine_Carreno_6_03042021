@@ -1,0 +1,32 @@
+@media (min-width: 1024px) {
+#header-photographer {
+    display: flex;
+}
+#logo{
+    width: 18%;
+}
+.profil-img{
+    width: 200px;
+    height: 200px;
+}
+main{
+ margin: 5%;
+}
+#galerie-media{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.media{
+    width: 30%;
+    margin: 2% 1%;
+}
+#contact-wrap{
+    width: 50%;
+    position: absolute;
+    top: 15%;
+    left: 35%;
+    text-align: left
+    
+}
+};

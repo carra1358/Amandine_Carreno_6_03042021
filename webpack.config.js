@@ -11,7 +11,7 @@ module.exports = {
 
   entry: {
       index: "./src/index.js",
-      routing: "./src/routing.js"
+      photographes: "./src/photographes.js"
       
   },
   output: {
@@ -53,12 +53,14 @@ module.exports = {
       
       new HtmlWebpackPlugin({
           filename: "index.html",
-          template: "index.html"
+          template: "index.html",
+          chunks: ["index"],
       }),
       
       new HtmlWebpackPlugin({
        filename: "photographes.html",
-      template: "photographes.html"
+      template: "photographes.html",
+      chunks: ["photographes"],
       }),
 
       new ImageMinimizerPlugin({
