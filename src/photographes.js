@@ -26,6 +26,7 @@ getData().then(data => {
    renderTag(photographer);
    renderMedia(photographer, media);
    
+   
 });
 
 
@@ -44,7 +45,7 @@ function renderProfilInfo(photographer) {
         `
 };
 
-function renderTag(photographer){
+function renderTag(photographer) {
     photographerTag.innerHTML = `
     <div class="card-tagwrapper">
     ${photographer.tags.map(tag =>`<a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`).join("")}
@@ -53,16 +54,104 @@ function renderTag(photographer){
 };
 
 function renderMedia(photographer, media) {
+    
 galerieMedia.innerHTML += media.map( m => 
   
     `<figure class="media">
-    <img src="../images/${photographer.name.split(" ")[0]}/${m.image}" alt=""> 
     <figcaption class="media-info">
         <span>${m.image.split(/[._]/).slice(1,-1).join(" ")}</span>
         <span>${m.price}€</span>
         <span>${m.likes}<i class="fas fa-heart"></i></span>
     </figcaption>
-    </figure>`).join("")
-                                     
+    </figure>`).join("")                      
 };
+
+  class Media {
+        constructor(id,photographerId,tags,likes,date,price){
+         id;
+         photographerId;
+         tags;
+         likes;
+         date;
+         price;
+         
+           }
+      createMedia () {
+       console.log("cest un media")}
+    }
+ 
+  
+class Video extends Media {
+    constructor(id,photographerId,tags,likes,date,price,video){
+       super(id,photographerId,tags,likes,date,price)
+       this.video = video
+    }
+    createMedia(){
+        console.log("ce media est une video")
+        //galerieMedia.appendChild(document.createElement("video")).innerHTML =`
+       // src="../images/${photographer.name.split(" ")[0]}/${m.video}" alt="" `
+    }
+    
+}
+
+class Image extends Media {
+    constructor(id,photographerId,tags,likes,date,price,image){
+    super(id,photographerId,tags,likes,date,price)
+       this.image = image
+       
+    }
+
+    createMedia(){
+        return galerieMedia.innerHTML += `<p>CEST UNE IMAGE ${this.id}</p>`
+    }
+
+}
+ getData().then( data => { 
+     
+     const media = data.default.media;
+     let image = new Image();
+         image = media.from(Image);
+     console.log(image);
+     let video = new Video();
+     
+      media.map(m =>  {
+      
+         function factory (m){
+
+        function Isimage(){
+             if(m.hasOwnProperty("image")){
+            return image.createMedia()}
+        }
+        function IsVideo(){
+            if (m.hasOwnProperty("video")){
+        return video.createMedia()
+    }
+        }
+       Isimage();
+       IsVideo();
+        
+    
+    };
+    console.log(factory(m));
+     });
+  
+    });
+
+    console.log( new Media());
+    
+
+
+let image1 = new Image(12,13,"mimi",12,"29 janvier", "30$", "photo.jpg");
+let video2 = new Video(13,16,"jojo",17,"20 janvier", "60$", "phoo.mp4");
+
+
+
+
+
+
+
+
+
+
+
 

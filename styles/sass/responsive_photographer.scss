@@ -1,6 +1,7 @@
 @media (min-width: 1024px) {
 #header-photographer {
     display: flex;
+    flex-direction: column;
 }
 #logo{
     width: 18%;
@@ -12,6 +13,7 @@
 main{
  margin: 5%;
 }
+
 #galerie-media{
     display: flex;
     justify-content: space-between;
