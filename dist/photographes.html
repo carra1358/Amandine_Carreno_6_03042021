@@ -1,37 +1,58 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>photographes</title>
-<script defer src="runtime.bundle.js"></script><script defer src="vendors-node_modules_fortawesome_fontawesome-svg-core_index_es_js-node_modules_css-loader_dis-c824af.bundle.js"></script><script defer src="photographes.bundle.js"></script></head>
-<body>
+  <script defer src="runtime.bundle.js"></script><script defer src="vendors-node_modules_fortawesome_fontawesome-svg-core_index_es_js-node_modules_css-loader_dis-c824af.bundle.js"></script><script defer src="photographes.bundle.js"></script></head>
+  <body>
     <header id="header-photographer" role="banner">
-
-        <div id="logo"><a href="index.html"><img src="1ce92a71b605a2d2796f.png" alt="home page"></a></div>
-        <div id="photographer-profil">
-        </div>
-        <div id="photographer-tag">
-        </div>
+      <div id="logo">
+        <a href="index.html"><img src="1ce92a71b605a2d2796f.png" alt="home page" /></a>
+      </div>
+      <div id="photographer-profil"></div>
+      <div id="photographer-tag"></div>
     </header>
     <main>
-        <div id="filter-wrap">
-            <label for="filter-media">Trier par</label>
-            <i class="fas fa-angle-down"></i>
-            <select name="filter" id="filter-media">
-               <option value="popularite"> Popularité </option></span>
-                <option value="date">Date</option>
-                <option value="titre">Titre</option>
-            </select>
+      <div id="filter-media">
+        <p>Trier par</p>
+        <div id="filters">
+          <button id="popularite">
+            Popularité <i class="fas fa-chevron-down" aria-hidden="true"></i>
+          </button>
+          <button id="date" class="invisible">Date</button>
+          <button id="titre" class="invisible">Titre</button>
         </div>
-     
-        <section id="galerie-media">
-        </section>
-           <section id="contact-wrap">
-            <button id="acces-modal">Contactez-moi</button>
-        </section>
+      </div>
+
+      <section id="galerie-media"></section>
+      <section id="contact-wrap">
+        <button id="acces-modal">Contactez-moi</button>
+      </section>
     </main>
-    <script src="4999de4595253f3d72cf.js"></script>
-</body>
+    <aside id="modal-container">
+      <form action="" method="GET" id="modal">
+        <h1>Contactez-moi<br /><span id="modal-photographer-name"></span></h1>
+        <label for="name">Prénom</label>
+        <input type="text" name="name" id="name" />
+        <label for="lastname">Nom</label>
+        <input type="text" name="lastname" id="lastname" />
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+        <label for="message">Votre message</label>
+        <input type="text" name="message" id="message" />
+        <div id="modal-envoyer">
+          <input type="submit" value="Envoyer" id="submit" />
+        </div>
+        <i class="fas fa-times"></i>
+      </form>
+    </aside>
+    <script src="cf4ae16f4cc746b578ee.js"></script>
+  </body>
 </html>
