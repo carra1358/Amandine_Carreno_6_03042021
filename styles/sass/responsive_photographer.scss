@@ -1,0 +1,131 @@
+$base-color: #911c1c;
+$second-color: #d3573c;
+$minor-color: #525252;
+$main-font: "dmsans";
+
+@media (min-width: 1024px) {
+  #header-photographer {
+    display: flex;
+    flex-direction: column;
+  }
+  #logo {
+    width: 25%;
+    margin-bottom: 1.5em;
+  }
+
+  #photographer-profil {
+    background-color: #fafafa;
+    padding: 1.5em;
+    padding-bottom: 0;
+    border-radius: 5px;
+    .profil-img {
+      text-align: center;
+    }
+  }
+
+  #profil-img-photographes {
+    width: 200px;
+    height: 200px;
+  }
+
+  #profil-header {
+    font-size: 64px;
+  }
+
+  #profil-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    .ville {
+      font-size: 24px;
+    }
+    .quote,
+    .prix {
+      font-size: 18px;
+    }
+  }
+
+  #photographer-tag {
+    margin: 0;
+    padding: 1.5em;
+    background-color: #fafafa;
+  }
+
+  .tag {
+    font-size: 18px;
+    border-radius: 25px;
+  }
+
+  main {
+    margin: 5%;
+  }
+
+  #galerie-media {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .media {
+    width: 30%;
+    margin: 2% 1%;
+  }
+  #contact-wrap {
+    width: 50%;
+    position: absolute;
+    top: 25%;
+    left: 35%;
+    text-align: left;
+  }
+
+  #acces-modal {
+    margin-left: 3em;
+    width: 170px;
+    height: 69px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  #filter-media {
+    display: flex;
+    align-items: center;
+    font-family: $main-font;
+    font-size: 1em;
+    margin-bottom: 2%;
+  }
+
+  #filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $base-color;
+    border-radius: 5px;
+    width: 130px;
+    margin-left: 1em;
+
+    button {
+      background-color: $base-color;
+      padding: 0.8em;
+      font-size: 0.9em;
+      color: #ffff;
+      width: 87%;
+      white-space: nowrap;
+    }
+  }
+
+  #date {
+    border-bottom: 1px solid #ffff;
+    border-top: 1px solid #ffff;
+    border-left: transparent;
+    border-right: transparent;
+  }
+
+  #popularite,
+  #titre {
+    border-style: none;
+  }
+
+  .fa-chevron-down {
+    margin-left: 0.3em;
+  }
+} ;
