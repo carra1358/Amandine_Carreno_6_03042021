@@ -1,4 +1,4 @@
-import "../styles/stylesheet.scss";
+import "../styles/photographer.scss";
 import "../styles/sass/responsive_photographer.scss";
 import { config } from "@fortawesome/fontawesome-svg-core";
 console.log(config.autoA11y); // true

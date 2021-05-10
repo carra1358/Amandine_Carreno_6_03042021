@@ -1,15 +1,13 @@
-$base-color: #911c1c;
-$second-color: #d3573c;
-$minor-color: #525252;
-$main-font: "dmsans";
+@import "./mixin";
 
 @media (min-width: 1024px) {
   #header-photographer {
     display: flex;
     flex-direction: column;
+    margin-top: 3%;
   }
   #logo {
-    width: 25%;
+    @include logo-desktop;
     margin-bottom: 1.5em;
   }
 
@@ -19,7 +17,7 @@ $main-font: "dmsans";
     padding-bottom: 0;
     border-radius: 5px;
     .profil-img {
-      text-align: center;
+      text-align: right;
     }
   }
 
@@ -62,23 +60,21 @@ $main-font: "dmsans";
 
   #galerie-media {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
   }
   .media {
     width: 30%;
-    margin: 2% 1%;
   }
   #contact-wrap {
     width: 50%;
     position: absolute;
-    top: 25%;
-    left: 35%;
+    top: 180px;
+    left: 50%;
     text-align: left;
   }
 
   #acces-modal {
-    margin-left: 3em;
     width: 170px;
     height: 69px;
     font-size: 20px;
@@ -86,18 +82,16 @@ $main-font: "dmsans";
   }
 
   #filter-media {
-    display: flex;
-    align-items: center;
+    @include flex-align-items-center;
     font-family: $main-font;
     font-size: 1em;
-    margin-bottom: 2%;
+    margin: 2%;
   }
 
   #filters {
-    display: flex;
+    @include flex-align-items-center;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     background-color: $base-color;
     border-radius: 5px;
     width: 130px;
@@ -127,5 +121,50 @@ $main-font: "dmsans";
 
   .fa-chevron-down {
     margin-left: 0.3em;
+  }
+
+  /* modal */
+
+  #modal-container {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.459);
+    padding-bottom: 60%;
+    top: 3%;
+  }
+
+  #modal {
+    background-color: #db8876;
+    width: 49%;
+    padding: 5%;
+    padding-top: 2%;
+    border-radius: 5px;
+
+    #submit {
+      height: 69px;
+    }
+
+    input,
+    textarea {
+      font-size: 1.2em;
+    }
+  }
+
+  #name,
+  #lastname,
+  #email {
+    height: 68px;
+  }
+
+  #message {
+    height: 170px;
+  }
+
+  #modal-envoyer {
+    justify-content: start;
+  }
+
+  .close {
+    right: 29%;
+    top: 3%;
   }
 } ;

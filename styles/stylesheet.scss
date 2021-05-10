@@ -13,47 +13,22 @@
   src: url("fonts/Roboto/Roboto-Regular.ttf");
 }
 
-$base-color: #911c1c;
-$second-color: #d3573c;
-$minor-color: #525252;
-$main-font: "dmsans";
-
-body {
-  margin: 0;
-  overflow-x: hidden;
-}
-
-a {
-  text-decoration: none;
-}
-
-li {
-  list-style: none;
-}
-
-ul {
-  padding: 0;
-}
+@import "./sass/mixin";
 
 .screen-reader {
-  position: absolute;
-  font-size: 1px;
-  color: white;
-  top: 0px;
+  @include screen-reader;
 }
 
 #logo {
-  width: 50%;
+  @include logo-mobile;
   img {
     width: 100%;
-    -o-object-fit: cover;
-    object-fit: cover;
+    @include fit-container;
   }
 }
 
 .navigation {
-  display: flex;
-  justify-content: center;
+  @include justify-content-center;
   align-content: space-evenly;
   flex-wrap: wrap;
   padding: 0;
@@ -62,30 +37,18 @@ ul {
 }
 
 .tag {
-  margin: 1em 0.2em;
-  padding: 0.2em 0.5em;
-  font-family: "dmsans-bold";
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 500;
-  color: $base-color;
-  border: 0.5px solid #c4c4c4;
-  border-radius: 11px;
-  -webkit-border-radius: 11px;
-  -moz-border-radius: 11px;
-  -ms-border-radius: 11px;
-  -o-border-radius: 11px;
+  @include tag;
 }
 
 .fa-hashtag {
   font-size: 12px;
   line-height: 16px;
-  text-align: center;
+  @include align-text-center;
 }
 
 #anchor-main {
   display: none;
-  text-align: center;
+  @include align-text-center;
 
   a {
     color: black;
@@ -93,13 +56,13 @@ ul {
     border-radius: 5px;
     font-family: "roboto";
     font-size: 18px;
-    text-align: center;
     padding: 5px;
+    @include align-text-center;
   }
 }
 
 header {
-  margin: 5%;
+  margin: $margin-content;
 }
 
 #main-title {
@@ -110,18 +73,15 @@ header {
   z-index: 2;
   font-weight: normal;
   top: 2%;
-  right: 5%;
+  right: $margin-content;
 }
 
 .profil-img {
   width: 200px;
   height: 200px;
   img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    -o-object-fit: cover;
-    object-fit: cover;
+    @include fit-container;
+    @include make-it-round;
   }
 }
 
@@ -131,14 +91,13 @@ h2 {
 }
 
 .card {
-  margin: 5%;
+  margin: $margin-content;
   font-family: $main-font;
   display: block;
-  display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  @include justify-content-center;
+  @include align-text-center;
 }
 
 p {
@@ -146,7 +105,6 @@ p {
 }
 
 .ville {
-  color: $base-color;
   font-size: 16px;
 }
 
@@ -155,7 +113,6 @@ p {
 }
 
 .prix {
-  color: $minor-color;
   font-size: 10px;
 }
 
@@ -164,207 +121,4 @@ p {
     margin: 0.2em;
     text-transform: lowercase;
   }
-}
-
-.galerie-img {
-  width: 100px;
-  height: 100px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    -o-object-fit: cover;
-    object-fit: cover;
-  }
-}
-
-/*pages photographes*/
-
-#photographer-profil {
-  display: flex;
-  font-family: $main-font;
-  .profil-img {
-    width: 50%;
-    height: 100%;
-    text-align: left;
-  }
-}
-
-#profil-img-photographes {
-  width: 100px;
-  height: 100px;
-}
-
-#profil-text {
-  width: 80%;
-  font-size: 13px;
-}
-
-#photographer-tag {
-  white-space: nowrap;
-  font-size: 13px;
-  margin-top: 1em;
-  :first-child {
-    margin-left: 0;
-  }
-}
-
-#profil-header {
-  font-family: $main-font;
-  font-size: 36px;
-  color: $second-color;
-  margin: 0;
-}
-
-#contact-wrap {
-  width: 86%;
-  position: fixed;
-  scroll-behavior: smooth;
-  text-align: center;
-  top: 90%;
-}
-
-#acces-modal {
-  color: #ffff;
-  width: 170px;
-  height: 35px;
-  font-family: $main-font;
-  background-color: $base-color;
-  font-size: 18px;
-  font-weight: 700;
-  border-style: none;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-}
-
-main {
-  margin: 10% 5%;
-  padding-bottom: 15%;
-}
-
-.media {
-  width: 100%;
-  margin: 0;
-  margin-bottom: 5%;
-
-  img,
-  video {
-    border-radius: 5px;
-    width: 100%;
-    height: 11.9em;
-    -o-object-fit: cover;
-    object-fit: cover;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-  }
-}
-
-.media-info {
-  color: $base-color;
-  font-family: $main-font;
-  font-weight: 500;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  margin-top: 2%;
-  :first-child {
-    width: 70%;
-  }
-  span {
-    white-space: nowrap;
-    display: block;
-  }
-}
-
-.fa-heart {
-  width: 0.9em;
-  margin-left: 3px;
-}
-
-#filter-media {
-  display: none;
-}
-
-.visible {
-  display: block;
-}
-
-.invisible {
-  display: none;
-}
-
-/* modal */
-
-aside {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding-bottom: 10%;
-  background-color: #db8876;
-  overflow: hidden;
-  font-weight: normal;
-  display: none;
-}
-
-#modal {
-  display: flex;
-  flex-direction: column;
-  font-family: $main-font;
-  width: 90%;
-
-  h1 {
-    font-size: 36px;
-  }
-
-  label {
-    font-size: 24px;
-    margin-top: 0.85em;
-  }
-
-  #name,
-  #lastname,
-  #email {
-    border: none;
-    border-radius: 5px;
-    height: 47px;
-  }
-
-  #message {
-    border: none;
-    border-radius: 5px;
-    height: 184px;
-  }
-
-  #submit {
-    color: #ffff;
-    width: 170px;
-    height: 35px;
-    background-color: #911c1c;
-    font-size: 18px;
-    font-weight: 700;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-style: none;
-  }
-}
-
-#modal-envoyer {
-  display: flex;
-  justify-content: center;
-  margin-top: 3em;
-}
-
-.fa-times {
-  width: auto;
-  display: block;
-  font-size: 36px;
-  color: #ffff;
-  position: absolute;
-  top: 5%;
-  right: 5%;
 }

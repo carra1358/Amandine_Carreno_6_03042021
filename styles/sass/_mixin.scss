@@ -1,0 +1,86 @@
+$base-color: #911c1c;
+$second-color: #d3573c;
+$minor-color: #525252;
+$main-font: "dmsans";
+$margin-content: 7%;
+
+@mixin tag {
+  margin: 1em 0.2em;
+  padding: 0.2em 0.5em;
+  font-family: "dmsans-bold";
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: $base-color;
+  border: 0.5px solid #c4c4c4;
+  border-radius: 11px;
+  -webkit-border-radius: 11px;
+  -moz-border-radius: 11px;
+  -ms-border-radius: 11px;
+  -o-border-radius: 11px;
+}
+
+@mixin screen-reader {
+  position: absolute;
+  font-size: 1px;
+  color: white;
+  top: 0px;
+}
+
+@mixin fit-container {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+@mixin make-it-round {
+  border-radius: 50%;
+}
+
+@mixin logo-mobile {
+  width: 40%;
+}
+
+@mixin logo-desktop {
+  width: 16%;
+}
+
+@mixin align-text-center {
+  text-align: center;
+}
+
+@mixin flex-align-items-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin justify-content-center {
+  display: flex;
+  justify-content: center;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+ul {
+  padding: 0;
+}
+
+.ville {
+  color: $base-color;
+}
+
+.prix {
+  color: $minor-color;
+}
