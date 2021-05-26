@@ -1,20 +1,49 @@
+const logo = require("../images/Logo/logo.png");
 import { config } from "@fortawesome/fontawesome-svg-core";
 console.log(config.autoA11y); // true
 import "../styles/stylesheet.scss";
 import "../styles/sass/responsive.scss";
-const logo = require("../images/logo.png");
 
 const getData = () => import("./data/data.json");
 const template = document.getElementById("nos_photographes");
+const navigation = document.querySelector(".navigation");
+const tag = document.getElementsByClassName("tag");
 
 getData().then((data) => {
-  data.default.photographers.map((element) => {
-    return (template.innerHTML += `
+  let photographer = data.default.photographers;
+  let tags = data.default.photographers
+    .map((p) => p.tags)
+    .reduce(function (a, b) {
+      return [...a, ...b];
+    });
+  tags = new Set([...tags]);
+
+  tags.forEach((x) => renderNav(x, photographer));
+
+  const photographersCard = photographer.map((element) =>
+    renderPhotographerCard(element)
+  );
+  FilterInMain(photographer);
+});
+
+function renderNav(x, photographer) {
+  navigation.innerHTML += `<li><a href="#" class="tag" id="${x}"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>${x}</a></li>`;
+  navigation.addEventListener("click", (event) => {
+    const filterPhotographers = photographer.filter((t) =>
+      t.tags.includes(event.target.id)
+    );
+    template.innerHTML = "";
+    filterPhotographers.forEach((element) => renderPhotographerCard(element));
+  });
+}
+
+function renderPhotographerCard(element) {
+  template.innerHTML += `
 <li class="card">
 <a href="photographes.html?id=${element.id}&name=${element.name.split(" ")[0]}">
 <div class="profil-img"><img src="${
-      "../images/PhotographersIDPhotos/" + element.portrait
-    }" alt=""> </div> 
+    "../images/PhotographersIDPhotos/" + element.portrait
+  }" alt=""> </div> 
 <h2>${element.name}</h2>
 </a>
 <p>
@@ -26,12 +55,23 @@ getData().then((data) => {
    ${element.tags
      .map(
        (tag) =>
-         `<a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`
+         `<span class="screen-reader">tag</span> <a href="#" class="tag ${tag}"><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`
      )
      .join("")}
 </div>
 </li>
 
-`);
+`;
+}
+
+function FilterInMain(photographer) {
+  template.addEventListener("click", (event) => {
+    let filterPhotographers = photographer.filter((t) =>
+      t.tags.includes(event.target.text)
+    );
+    if (filterPhotographers.length >= 1) {
+      template.innerHTML = "";
+      filterPhotographers.forEach((element) => renderPhotographerCard(element));
+    }
   });
-});
+}

@@ -66,13 +66,17 @@ header {
 }
 
 #main-title {
+  display: flex;
+  align-items: center;
   font-family: $main-font;
   color: #911c1c;
   font-size: 16px;
   position: absolute;
   z-index: 2;
   font-weight: normal;
-  top: 2%;
+  top: 0;
+  margin: 0;
+  margin-top: $margin-content;
   right: $margin-content;
 }
 

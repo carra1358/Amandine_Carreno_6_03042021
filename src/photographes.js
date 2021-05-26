@@ -26,16 +26,18 @@ getData().then((data) => {
   );
   const media = data.default.media
     .filter((m) => m.photographerId == photographer.id)
-    .map((m) => factory(m))
-    .join(" ");
+    .map((m) => factory(m));
   if (photographer === undefined) {
     window.location.href = "index.html";
   }
 
+  console.log(media.sort((a, b) => new Date(b.date) - new Date(a.date)));
+
+  // media.sort((a, b) => a.likes - b.likes).reverse();
   renderProfilInfo(photographer);
   renderTag(photographer);
-  console.log(media);
-  galerieMedia.innerHTML = media;
+  galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+
   modalPhotographerName.innerHTML = `${photographer.name}`;
 
   // renderMedia(photographer, media);
@@ -124,7 +126,7 @@ function factory(media) {
       media.price,
       media.image,
       getNameParams
-    ).createMediaContent();
+    );
   } else if (media.hasOwnProperty("video")) {
     return new Video(
       media.id,
@@ -135,6 +137,18 @@ function factory(media) {
       media.price,
       media.video,
       getNameParams
-    ).createMediaContent();
+    );
   }
 }
+
+/* trie alphanetique
+
+** récupérer le 1 nom sans le tag dans une constante
+
+const srcPourFilter = media.map((m) => m.src.split("_").splice(1).join(""));
+
+** ranger par ordre alphabetique en ignorant les A-Z
+
+srcPourFilter.sort((a, b) => a.localeCompare(b, { sensitivity: "base" }))
+
+*/
