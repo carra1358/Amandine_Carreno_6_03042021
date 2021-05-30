@@ -91,19 +91,23 @@
   #filters {
     @include flex-align-items-center;
     flex-direction: column;
-    justify-content: center;
     background-color: $base-color;
     border-radius: 5px;
-    width: 130px;
-    margin-left: 1em;
-
+    margin-left: 6em;
+    position: absolute;
     button {
       background-color: $base-color;
       padding: 0.8em;
       font-size: 0.9em;
       color: #ffff;
-      width: 87%;
       white-space: nowrap;
+      width: 130px;
+    }
+    :first-child {
+      border-radius: 5px;
+    }
+    :nth-child(3) {
+      border-radius: 0 0 5px 5px;
     }
   }
 
@@ -112,6 +116,11 @@
     border-top: 1px solid #ffff;
     border-left: transparent;
     border-right: transparent;
+  }
+
+  #date,
+  #titre {
+    position: relative;
   }
 
   #popularite,

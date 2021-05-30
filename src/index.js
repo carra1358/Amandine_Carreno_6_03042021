@@ -8,6 +8,10 @@ const getData = () => import("./data/data.json");
 const template = document.getElementById("nos_photographes");
 const navigation = document.querySelector(".navigation");
 const tag = document.getElementsByClassName("tag");
+const querystring = window.location.search;
+const urlParams = new URLSearchParams(querystring);
+const hasTagParams = urlParams.has("tagValue");
+const getTagParams = urlParams.get("tagValue");
 
 getData().then((data) => {
   let photographer = data.default.photographers;
@@ -20,9 +24,8 @@ getData().then((data) => {
 
   tags.forEach((x) => renderNav(x, photographer));
 
-  const photographersCard = photographer.map((element) =>
-    renderPhotographerCard(element)
-  );
+  WhichDataToload(photographer);
+
   FilterInMain(photographer);
 });
 
@@ -74,4 +77,24 @@ function FilterInMain(photographer) {
       filterPhotographers.forEach((element) => renderPhotographerCard(element));
     }
   });
+}
+
+/* Gestion affichage des photographes taggés depuis photographes.html */
+
+function filterByTagInPhotographer(photographer) {
+  let tagParamsFilter = photographer.filter((p) =>
+    p.tags.includes(getTagParams)
+  );
+
+  tagParamsFilter.forEach((element) => renderPhotographerCard(element));
+
+  console.log(tagParamsFilter);
+}
+
+function WhichDataToload(photographer) {
+  if (hasTagParams) {
+    filterByTagInPhotographer(photographer);
+  } else {
+    photographer.map((element) => renderPhotographerCard(element));
+  }
 }

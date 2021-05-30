@@ -31,8 +31,6 @@ getData().then((data) => {
     window.location.href = "index.html";
   }
 
-  console.log(media.sort((a, b) => new Date(b.date) - new Date(a.date)));
-
   // media.sort((a, b) => a.likes - b.likes).reverse();
   renderProfilInfo(photographer);
   renderTag(photographer);
@@ -68,7 +66,7 @@ function renderTag(photographer) {
     ${photographer.tags
       .map(
         (tag) =>
-          `<a href="" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`
+          `<a href="index.html?tagValue=${tag}#tag" class="tag"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`
       )
       .join("")}
          
@@ -141,7 +139,10 @@ function factory(media) {
   }
 }
 
-/* trie alphanetique
+/* fonctionnalité de Trie 
+
+
+***** Trie par nom *****
 
 ** récupérer le 1 nom sans le tag dans une constante
 
@@ -151,4 +152,15 @@ const srcPourFilter = media.map((m) => m.src.split("_").splice(1).join(""));
 
 srcPourFilter.sort((a, b) => a.localeCompare(b, { sensitivity: "base" }))
 
+
+***** trie par Date ****
+media.sort((a, b) => new Date(b.date) - new Date(a.date))
+
+
 */
+
+// DOM bouton trie
+
+const buttonPopularity = document.getElementById("popularite");
+const buttonDate = document.getElementById("date");
+const buttonTittle = document.getElementById("titre");
