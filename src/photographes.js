@@ -11,8 +11,18 @@ const photographerTag = document.getElementById("photographer-tag");
 const modalPhotographerName = document.getElementById(
   "modal-photographer-name"
 );
+
+// DOM bouton trie
+const filtersMedia = document.getElementById("filters");
+const buttonPopularity = document.getElementById("popularite");
+const buttonDate = document.getElementById("date");
+const buttonTittle = document.getElementById("titre");
+const chevron = document.getElementById("chevron");
+const buttonSelected = document.getElementById("selected_filter");
+let textSelected = document.getElementById("selected_text");
+
 //Url params
-const querystring = window.location.search;
+let querystring = window.location.search;
 const urlParams = new URLSearchParams(querystring);
 const getIdParams = urlParams.get("id");
 const getNameParams = urlParams.get("name");
@@ -24,22 +34,66 @@ getData().then((data) => {
   const photographer = data.default.photographers.find(
     (p) => p.id == getIdParams
   );
-  const media = data.default.media
+  let media = data.default.media
     .filter((m) => m.photographerId == photographer.id)
     .map((m) => factory(m));
   if (photographer === undefined) {
     window.location.href = "index.html";
   }
+  buttonSelected.addEventListener("click", () => {
+    buttonDate.classList.replace("invisible", "visible");
+    buttonTittle.classList.replace("invisible", "visible");
+    buttonPopularity.classList.replace("invisible", "visible");
+    buttonSelected.classList.replace("visible", "invisible");
+  });
+
+  buttonPopularity.addEventListener("click", () => {
+    media.sort((a, b) => a.likes - b.likes).reverse();
+    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    makeButtonSelectedVisible();
+    textSelected.textContent = "Popularité";
+  });
+
+  buttonDate.addEventListener("click", () => {
+    media.sort((a, b) => new Date(b.date) - new Date(a.date));
+    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    makeButtonSelectedVisible();
+    textSelected.textContent = "Date";
+  });
+  buttonTittle.addEventListener("click", () => {
+    media.sort((a, b) =>
+      a.src
+        .split("_")
+        .splice(1)
+        .join("")
+        .localeCompare(b.src.split("_").splice(1).join(""), {
+          sensitivity: "base",
+        })
+    );
+    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    makeButtonSelectedVisible();
+    textSelected.textContent = "Titre";
+  });
+
+  //window.onload = orderMedia(media);
 
   // media.sort((a, b) => a.likes - b.likes).reverse();
+
   renderProfilInfo(photographer);
   renderTag(photographer);
-  galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
-
+  buttonPopularity.click();
+  //mettre event listenner de likes => recupérer dataSet(), pour retrouver le media dans le tableau et appeler function addLikes();
   modalPhotographerName.innerHTML = `${photographer.name}`;
 
   // renderMedia(photographer, media);
 });
+
+function makeButtonSelectedVisible() {
+  buttonDate.classList.replace("visible", "invisible");
+  buttonTittle.classList.replace("visible", "invisible");
+  buttonPopularity.classList.replace("visible", "invisible");
+  buttonSelected.classList.replace("invisible", "visible");
+}
 
 function renderProfilInfo(photographer) {
   photographerProfil.innerHTML = `
@@ -85,6 +139,9 @@ class Media {
     this.name = name;
   }
   createMediaContent() {}
+  addLikes() {
+    console.log(this.likes + 1);
+  }
 }
 
 class Video extends Media {
@@ -107,7 +164,9 @@ class Image extends Media {
     <figcaption class="media-info">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
-        <span>${this.likes}<i class="fas fa-heart"></i></span>
+        <span class="likes" data-id="${this.id}"><span>${
+      this.likes
+    }</span><i class="fas fa-heart"></i></span>
     </figcaption>
     </figure>`;
   }
@@ -138,29 +197,3 @@ function factory(media) {
     );
   }
 }
-
-/* fonctionnalité de Trie 
-
-
-***** Trie par nom *****
-
-** récupérer le 1 nom sans le tag dans une constante
-
-const srcPourFilter = media.map((m) => m.src.split("_").splice(1).join(""));
-
-** ranger par ordre alphabetique en ignorant les A-Z
-
-srcPourFilter.sort((a, b) => a.localeCompare(b, { sensitivity: "base" }))
-
-
-***** trie par Date ****
-media.sort((a, b) => new Date(b.date) - new Date(a.date))
-
-
-*/
-
-// DOM bouton trie
-
-const buttonPopularity = document.getElementById("popularite");
-const buttonDate = document.getElementById("date");
-const buttonTittle = document.getElementById("titre");

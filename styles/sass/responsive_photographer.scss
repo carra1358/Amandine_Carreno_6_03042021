@@ -91,8 +91,6 @@
   #filters {
     @include flex-align-items-center;
     flex-direction: column;
-    background-color: $base-color;
-    border-radius: 5px;
     margin-left: 6em;
     position: absolute;
     button {
@@ -102,34 +100,39 @@
       color: #ffff;
       white-space: nowrap;
       width: 130px;
+      text-align: left;
+      border-style: none;
     }
     :first-child {
       border-radius: 5px;
     }
-    :nth-child(3) {
+  }
+
+  #hidden_filters {
+    @include flex-align-items-center;
+    flex-direction: column;
+    background-color: $base-color;
+    position: relative;
+    top: 41px;
+    border-radius: 5px;
+    :first-child {
+      border-radius: 5px 5px 0 0;
+    }
+    :nth-child(5) {
       border-radius: 0 0 5px 5px;
     }
   }
 
-  #date {
-    border-bottom: 1px solid #ffff;
-    border-top: 1px solid #ffff;
-    border-left: transparent;
-    border-right: transparent;
+  .buttons-separator {
+    display: block;
+    width: 90%;
+    height: 1px;
+    background-color: #ffff;
   }
 
-  #date,
-  #titre {
-    position: relative;
-  }
-
-  #popularite,
-  #titre {
-    border-style: none;
-  }
-
-  .fa-chevron-down {
-    margin-left: 0.3em;
+  [class^="fas fa-chevron-"] {
+    position: absolute;
+    right: 0.8em;
   }
 
   /* modal */

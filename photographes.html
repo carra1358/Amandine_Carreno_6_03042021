@@ -25,11 +25,23 @@
       <div id="filter-media">
         <p>Trier par</p>
         <div id="filters">
-          <button id="popularite">
-            Popularité <i class="fas fa-chevron-down" aria-hidden="true"></i>
+          <button id="selected_filter" class="visible">
+            <span id="selected_text">Popularité</span>
+            <i id="chevron" class="fas fa-chevron-down" aria-hidden="true"></i>
           </button>
-          <button id="date" class="invisible">Date</button>
-          <button id="titre" class="invisible">Titre</button>
+          <div id="hidden_filters">
+            <button id="popularite" class="invisible">
+              Popularité
+              <i
+                id="chevron"
+                class="fas fa-chevron-up"
+                aria-hidden="true"
+              ></i></button
+            ><span class="buttons-separator" aria-hidden="true"></span>
+            <button id="date" class="invisible">Date</button
+            ><span class="buttons-separator" aria-hidden="true"></span>
+            <button id="titre" class="invisible">Titre</button>
+          </div>
         </div>
       </div>
 
