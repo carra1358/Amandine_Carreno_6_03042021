@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>photographes</title>
+  <script defer src="runtime.bundle.js"></script><script defer src="vendors-node_modules_fortawesome_fontawesome-svg-core_index_es_js-node_modules_css-loader_dis-c824af.bundle.js"></script><script defer src="photographes.bundle.js"></script></head>
+  <body>
+    <header id="header-photographer" role="banner">
+      <div id="logo">
+        <a href="index.html"
+          ><img src="1ce92a71b605a2d2796f.png" alt="home page"
+        /></a>
+      </div>
+      <div id="photographer-profil"></div>
+      <div id="photographer-tag"></div>
+    </header>
+    <main>
+      <div id="filter-media">
+        <p>Trier par</p>
+        <div id="filters">
+          <button id="selected_filter" class="visible">
+            <span id="selected_text">Popularité</span>
+            <i id="chevron" class="fas fa-chevron-down" aria-hidden="true"></i>
+          </button>
+          <div id="hidden_filters">
+            <button id="popularite" class="invisible">
+              Popularité
+              <i
+                id="chevron"
+                class="fas fa-chevron-up"
+                aria-hidden="true"
+              ></i></button
+            ><span class="buttons-separator" aria-hidden="true"></span>
+            <button id="date" class="invisible">Date</button
+            ><span class="buttons-separator" aria-hidden="true"></span>
+            <button id="titre" class="invisible">Titre</button>
+          </div>
+        </div>
+      </div>
+
+      <section id="galerie-media"></section>
+      <section id="contact-wrap">
+        <button id="acces-modal">Contactez-moi</button>
+      </section>
+    </main>
+    <div id="modal-container">
+      <form action="" method="GET" id="modal">
+        <h1>Contactez-moi<br /><span id="modal-photographer-name"></span></h1>
+
+        <div class="form-data">
+          <label for="name">Prénom</label>
+          <input type="text" name="name" id="name" />
+        </div>
+        <div class="form-data">
+          <label for="lastname">Nom</label>
+          <input type="text" name="lastname" id="lastname" />
+        </div>
+        <div class="form-data">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" />
+        </div>
+        <div class="form-data">
+          <label for="message">Votre message</label>
+          <textarea name="message" id="message" cols="30" rows="10"></textarea>
+        </div>
+
+        <div id="modal-envoyer">
+          <input type="submit" value="Envoyer" id="submit" />
+        </div>
+        <div class="close"></div>
+      </form>
+    </div>
+    <script src="4e83046e45d4e5d3e941.js"></script>
+  </body>
+</html>
