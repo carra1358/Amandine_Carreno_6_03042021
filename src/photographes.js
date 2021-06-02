@@ -75,17 +75,19 @@ getData().then((data) => {
     textSelected.textContent = "Titre";
   });
 
-  //window.onload = orderMedia(media);
-
-  // media.sort((a, b) => a.likes - b.likes).reverse();
-
   renderProfilInfo(photographer);
   renderTag(photographer);
   buttonPopularity.click();
-  //mettre event listenner de likes => recupérer dataSet(), pour retrouver le media dans le tableau et appeler function addLikes();
-  modalPhotographerName.innerHTML = `${photographer.name}`;
+  const allLikes = galerieMedia.querySelectorAll(".likes");
+  allLikes.forEach((el) =>
+    el.addEventListener("click", (e) => {
+      let likes = parseInt(el.dataset.id);
+      let findM = media.find((m) => m.id == likes);
+      el.firstChild.innerHTML = findM.addLikes();
+    })
+  );
 
-  // renderMedia(photographer, media);
+  modalPhotographerName.innerHTML = `${photographer.name}`;
 });
 
 function makeButtonSelectedVisible() {
@@ -140,7 +142,7 @@ class Media {
   }
   createMediaContent() {}
   addLikes() {
-    console.log(this.likes + 1);
+    return this.likes + 1;
   }
 }
 
@@ -151,7 +153,9 @@ class Video extends Media {
     <figcaption class="media-info">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
-        <span>${this.likes}<i class="fas fa-heart"></i></span>
+          <span class="likes" data-id="${this.id}"><span>${
+      this.likes
+    }</span><i class="fas fa-heart"></i></span>
     </figcaption>
     </figure>`;
   }
