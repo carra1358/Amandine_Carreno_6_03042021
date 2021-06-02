@@ -100,3 +100,5 @@ function WhichDataToload(photographer) {
     photographer.map((element) => renderPhotographerCard(element));
   }
 }
+
+// tentetive recuperation erreur merge
