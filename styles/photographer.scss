@@ -212,6 +212,8 @@ main {
   margin-top: 3em;
 }
 
+/* A TRANSFERER DANS RESPONSIVE*/
+
 .close {
   position: absolute;
   right: 15px;
@@ -236,4 +238,62 @@ main {
 }
 .close:after {
   transform: rotate(-45deg);
+}
+
+#lightbox {
+  background-color: #ffff;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: 984px;
+  text-align: center;
+
+  .close {
+    right: 10%;
+    background-color: transparent;
+    border-style: none;
+    color: $base-color;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+  }
+  .close:before,
+  .close:after {
+    position: absolute;
+    top: 0;
+    content: " ";
+    width: 42px;
+    height: 42px;
+    width: 5px;
+    background-color: $base-color;
+  }
+}
+
+#lightbox_media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 984px;
+
+  .media-info {
+    text-transform: capitalize;
+    font-size: 24px;
+  }
+}
+
+#prev {
+  @include lightbox-navigation-buttons;
+  left: 11%;
+}
+
+#next {
+  @include lightbox-navigation-buttons;
+  right: 9%;
+}
+
+.testimg {
+  object-fit: cover;
+  width: 1050px;
+  height: 900px;
 }

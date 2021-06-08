@@ -21,6 +21,15 @@ const chevron = document.getElementById("chevron");
 const buttonSelected = document.getElementById("selected_filter");
 let textSelected = document.getElementById("selected_text");
 
+//DOM lightbox
+const header = document.querySelector("header");
+const main = document.querySelector("main");
+const lightbox = document.getElementById("lightbox");
+const lightboxMedia = document.getElementById("lightbox_media");
+const closelightbox = document.querySelector(".close");
+// test event listenner
+const accesModal = document.getElementById("acces-modal");
+
 //Url params
 let querystring = window.location.search;
 const urlParams = new URLSearchParams(querystring);
@@ -40,6 +49,7 @@ getData().then((data) => {
   if (photographer === undefined) {
     window.location.href = "index.html";
   }
+
   buttonSelected.addEventListener("click", () => {
     buttonDate.classList.replace("invisible", "visible");
     buttonTittle.classList.replace("invisible", "visible");
@@ -60,7 +70,7 @@ getData().then((data) => {
     makeButtonSelectedVisible();
     textSelected.textContent = "Date";
   });
-  buttonTittle.addEventListener("click", () => {
+  buttonTittle.addEventListener("click", (e) => {
     media.sort((a, b) =>
       a.src
         .split("_")
@@ -88,6 +98,43 @@ getData().then((data) => {
   );
 
   modalPhotographerName.innerHTML = `${photographer.name}`;
+
+  const allMedia = galerieMedia.querySelectorAll(".preview");
+
+  let currentIndex = 0;
+  let nextMedia = 0;
+  let previousMedia = 0;
+  allMedia.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      header.classList.replace("visible", "invisible");
+      main.classList.replace("visible", "invisible");
+      lightbox.classList.replace("invisible", ".visible");
+      let singleMedia = media.find((m) => m.id == e.target.id);
+      lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
+      currentIndex = media.findIndex((el) => el.id == e.target.id);
+      console.log(currentIndex);
+    });
+  });
+  const next = document.getElementById("next");
+  const prev = document.getElementById("prev");
+  next.addEventListener("click", () => {
+    if (currentIndex == media.length - 1) {
+      currentIndex = 0;
+    } else {
+      currentIndex++;
+    }
+    nextMedia = media[currentIndex];
+    lightboxMedia.innerHTML = nextMedia.renderLightboxMedia();
+  });
+  prev.addEventListener("click", () => {
+    if (currentIndex == 0) {
+      currentIndex = media.length - 1;
+    } else {
+      currentIndex--;
+    }
+    previousMedia = media[currentIndex];
+    lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
+  });
 });
 
 function makeButtonSelectedVisible() {
@@ -142,14 +189,18 @@ class Media {
   }
   createMediaContent() {}
   addLikes() {
-    return this.likes + 1;
+    this.likes++;
+    return this.likes;
   }
+  renderLightboxMedia() {}
 }
 
 class Video extends Media {
   createMediaContent() {
     return `<figure class="media">
-    <video src="../images/${this.name}/${this.src}"></video>
+   <video id="${this.id}" class="preview" src="../images/${this.name}/${
+      this.src
+    }"></video>
     <figcaption class="media-info">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
@@ -159,12 +210,35 @@ class Video extends Media {
     </figcaption>
     </figure>`;
   }
+
+  renderLightboxMedia() {
+    return `<figure>
+          <video
+            class="testimg"
+            id="${this.id}" src="../images/${this.name}/${this.src}"
+            alt="">
+         </video>
+          <figcaption class="media-info">${this.src
+            .split(/[._]/)
+            .slice(1, -1)
+            .join(" ")}
+            </figcaption>
+      </figure>
+        <div id="prev">
+          <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div id="next">
+          <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </div>`;
+  }
 }
 
 class Image extends Media {
   createMediaContent() {
     return `<figure class="media">
-    <img src="../images/${this.name}/${this.src}" alt="">
+   <img class="preview" id="${this.id}" src="../images/${this.name}/${
+      this.src
+    }" alt="">
     <figcaption class="media-info">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
@@ -173,6 +247,22 @@ class Image extends Media {
     }</span><i class="fas fa-heart"></i></span>
     </figcaption>
     </figure>`;
+  }
+
+  renderLightboxMedia() {
+    return `<figure>
+          <img
+            class="testimg"
+            id="${this.id}" src="../images/${this.name}/${this.src}"
+            alt=""
+          />
+          <figcaption class="media-info">${this.src
+            .split(/[._]/)
+            .slice(1, -1)
+            .join(" ")}
+            </figcaption>
+      </figure>
+     `;
   }
 }
 
@@ -201,3 +291,29 @@ function factory(media) {
     );
   }
 }
+
+closelightbox.addEventListener("click", () => {
+  lightbox.classList.replace(".visible", "invisible");
+  header.classList.replace("invisible", "visible");
+  main.classList.replace("invisible", "visible");
+});
+
+/* function pour navigation entre media 
+
+ img/vid.addEventListener("click", (e) => {
+  // trouve Media cliquer
+
+    let findM = media.find((m) => m.id == e.target.id);
+
+   // trouve son index
+    let i = media.indexOf(findM);
+    console.log(i);
+    console.log(findM);
+    // va au prochain media 
+
+    console.log(media[i + 1]);
+  });
+
+  // ajouter le contenu a charger
+
+*/

@@ -12,7 +12,7 @@
     <title>photographes</title>
   <script defer src="runtime.bundle.js"></script><script defer src="vendors-node_modules_fortawesome_fontawesome-svg-core_index_es_js-node_modules_css-loader_dis-c824af.bundle.js"></script><script defer src="photographes.bundle.js"></script></head>
   <body>
-    <header id="header-photographer" role="banner">
+    <header id="header-photographer" role="banner" class="visible">
       <div id="logo">
         <a href="index.html"
           ><img src="1ce92a71b605a2d2796f.png" alt="home page"
@@ -21,7 +21,7 @@
       <div id="photographer-profil"></div>
       <div id="photographer-tag"></div>
     </header>
-    <main>
+    <main class="visible">
       <div id="filter-media">
         <p>Trier par</p>
         <div id="filters">
@@ -50,6 +50,16 @@
         <button id="acces-modal">Contactez-moi</button>
       </section>
     </main>
+    <div id="lightbox" class="invisible">
+      <div id="lightbox_media"></div>
+      <div id="prev">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      </div>
+      <div id="next">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      </div>
+      <button class="close"></button>
+    </div>
     <div id="modal-container">
       <form action="" method="GET" id="modal">
         <h1>Contactez-moi<br /><span id="modal-photographer-name"></span></h1>
@@ -77,6 +87,6 @@
         <div class="close"></div>
       </form>
     </div>
-    <script src="4e83046e45d4e5d3e941.js"></script>
+    <script src="9f2c5bbc881cf196f76a.js"></script>
   </body>
 </html>
