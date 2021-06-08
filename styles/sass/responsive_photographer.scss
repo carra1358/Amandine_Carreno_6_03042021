@@ -131,7 +131,8 @@
     background-color: #ffff;
   }
 
-  [class^="fas fa-chevron-"] {
+  .fa-chevron-up,
+  .fa-chevron-down {
     position: absolute;
     right: 0.8em;
   }

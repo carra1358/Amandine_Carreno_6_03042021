@@ -112,7 +112,6 @@ getData().then((data) => {
       let singleMedia = media.find((m) => m.id == e.target.id);
       lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
       currentIndex = media.findIndex((el) => el.id == e.target.id);
-      console.log(currentIndex);
     });
   });
   const next = document.getElementById("next");
@@ -214,7 +213,7 @@ class Video extends Media {
   renderLightboxMedia() {
     return `<figure>
           <video
-            class="testimg"
+            class="lightbox-img"
             id="${this.id}" src="../images/${this.name}/${this.src}"
             alt="">
          </video>
@@ -224,12 +223,7 @@ class Video extends Media {
             .join(" ")}
             </figcaption>
       </figure>
-        <div id="prev">
-          <i class="fas fa-chevron-left" aria-hidden="true"></i>
-        </div>
-        <div id="next">
-          <i class="fas fa-chevron-right" aria-hidden="true"></i>
-        </div>`;
+      `;
   }
 }
 
@@ -252,7 +246,7 @@ class Image extends Media {
   renderLightboxMedia() {
     return `<figure>
           <img
-            class="testimg"
+            class="lightbox-img"
             id="${this.id}" src="../images/${this.name}/${this.src}"
             alt=""
           />
