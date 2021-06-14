@@ -27,6 +27,13 @@ const main = document.querySelector("main");
 const lightbox = document.getElementById("lightbox");
 const lightboxMedia = document.getElementById("lightbox_media");
 const closelightbox = document.querySelector(".close");
+const body = document.querySelector("body");
+let currentIndex = 0;
+let nextMedia = 0;
+let previousMedia = 0;
+let singleMedia;
+const next = document.getElementById("next");
+const prev = document.getElementById("prev");
 // test event listenner
 const accesModal = document.getElementById("acces-modal");
 
@@ -59,17 +66,18 @@ getData().then((data) => {
 
   buttonPopularity.addEventListener("click", () => {
     media.sort((a, b) => a.likes - b.likes).reverse();
-    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Popularité";
   });
 
   buttonDate.addEventListener("click", () => {
     media.sort((a, b) => new Date(b.date) - new Date(a.date));
-    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Date";
   });
+
   buttonTittle.addEventListener("click", (e) => {
     media.sort((a, b) =>
       a.src
@@ -80,7 +88,7 @@ getData().then((data) => {
           sensitivity: "base",
         })
     );
-    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Titre";
   });
@@ -88,52 +96,60 @@ getData().then((data) => {
   renderProfilInfo(photographer);
   renderTag(photographer);
   buttonPopularity.click();
-  const allLikes = galerieMedia.querySelectorAll(".likes");
-  allLikes.forEach((el) =>
-    el.addEventListener("click", (e) => {
-      let likes = parseInt(el.dataset.id);
-      let findM = media.find((m) => m.id == likes);
-      el.firstChild.innerHTML = findM.addLikes();
-    })
-  );
-
   modalPhotographerName.innerHTML = `${photographer.name}`;
 
-  const allMedia = galerieMedia.querySelectorAll(".preview");
+  function createMediaAndInteractions(media) {
+    // render Media in the galerie
 
-  let currentIndex = 0;
-  let nextMedia = 0;
-  let previousMedia = 0;
-  allMedia.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      header.classList.replace("visible", "invisible");
-      main.classList.replace("visible", "invisible");
-      lightbox.classList.replace("invisible", ".visible");
-      let singleMedia = media.find((m) => m.id == e.target.id);
-      lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
-      currentIndex = media.findIndex((el) => el.id == e.target.id);
+    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+
+    // add interaction with likes buttons
+
+    const allLikes = galerieMedia.querySelectorAll(".likes");
+    allLikes.forEach((el) =>
+      el.addEventListener("click", (e) => {
+        let likes = parseInt(el.dataset.id);
+        let findM = media.find((m) => m.id == likes);
+        el.firstChild.innerHTML = findM.addLikes();
+      })
+    );
+
+    // create lightbox
+
+    const allMedia = galerieMedia.querySelectorAll(".preview");
+    allMedia.forEach((el) => {
+      el.addEventListener("click", (e) => {
+        header.classList.replace("visible", "invisible");
+        main.classList.replace("visible", "invisible");
+        lightbox.classList.replace("invisible", "visible");
+        body.classList.add("overflow");
+        singleMedia = media.find((m) => m.id == e.target.id);
+        lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
+        currentIndex = media.findIndex((el) => el.id == e.target.id);
+      });
     });
-  });
-  const next = document.getElementById("next");
-  const prev = document.getElementById("prev");
-  next.addEventListener("click", () => {
-    if (currentIndex == media.length - 1) {
-      currentIndex = 0;
-    } else {
-      currentIndex++;
-    }
-    nextMedia = media[currentIndex];
-    lightboxMedia.innerHTML = nextMedia.renderLightboxMedia();
-  });
-  prev.addEventListener("click", () => {
-    if (currentIndex == 0) {
-      currentIndex = media.length - 1;
-    } else {
-      currentIndex--;
-    }
-    previousMedia = media[currentIndex];
-    lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
-  });
+
+    // lightbox navigation
+
+    next.addEventListener("click", () => {
+      if (currentIndex == media.length - 1) {
+        currentIndex = 0;
+      } else {
+        currentIndex++;
+      }
+      nextMedia = media[currentIndex];
+      lightboxMedia.innerHTML = nextMedia.renderLightboxMedia();
+    });
+    prev.addEventListener("click", () => {
+      if (currentIndex == 0) {
+        currentIndex = media.length - 1;
+      } else {
+        currentIndex--;
+      }
+      previousMedia = media[currentIndex];
+      lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
+    });
+  }
 });
 
 function makeButtonSelectedVisible() {
@@ -287,9 +303,10 @@ function factory(media) {
 }
 
 closelightbox.addEventListener("click", () => {
-  lightbox.classList.replace(".visible", "invisible");
+  lightbox.classList.replace("visible", "invisible");
   header.classList.replace("invisible", "visible");
   main.classList.replace("invisible", "visible");
+  body.classList.remove("overflow");
 });
 
 /* function pour navigation entre media 
