@@ -115,6 +115,7 @@
     position: relative;
     top: 41px;
     border-radius: 5px;
+    z-index: 10;
     :first-child {
       border-radius: 5px 5px 0 0;
     }
@@ -130,9 +131,65 @@
     background-color: #ffff;
   }
 
-  [class^="fas fa-chevron-"] {
+  .fa-chevron-up,
+  .fa-chevron-down {
     position: absolute;
     right: 0.8em;
+  }
+  /* lightbox */
+
+  /* A TRANSFERER DANS RESPONSIVE*/
+
+  .close {
+    width: 32px;
+    height: 32px;
+  }
+  .close:before,
+  .close:after {
+    height: 32px;
+    width: 3px;
+  }
+
+  #lightbox {
+    .close {
+      width: 42px;
+      height: 42px;
+      top: 1%;
+      right: 3%;
+    }
+    .close:before,
+    .close:after {
+      position: absolute;
+      top: 0;
+      content: " ";
+      width: 42px;
+      height: 42px;
+      width: 5px;
+    }
+  }
+
+  #lightbox_media {
+    @include justify-content-center;
+    align-items: flex-start;
+    .media-info {
+      font-size: 24px;
+    }
+  }
+
+  #next {
+    font-size: 42px;
+  }
+
+  #prev {
+    font-size: 42px;
+  }
+
+  .lightbox-img {
+    border-radius: unset;
+    width: initial;
+    max-height: initial;
+    max-width: 100%;
+    height: 90vh;
   }
 
   /* modal */

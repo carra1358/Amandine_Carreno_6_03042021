@@ -12,7 +12,7 @@
     <title>photographes</title>
   </head>
   <body>
-    <header id="header-photographer" role="banner">
+    <header id="header-photographer" role="banner" class="visible">
       <div id="logo">
         <a href="index.html"
           ><img src="images/Logo/logo.png" alt="home page"
@@ -21,7 +21,7 @@
       <div id="photographer-profil"></div>
       <div id="photographer-tag"></div>
     </header>
-    <main>
+    <main class="visible">
       <div id="filter-media">
         <p>Trier par</p>
         <div id="filters">
@@ -50,6 +50,18 @@
         <button id="acces-modal">Contactez-moi</button>
       </section>
     </main>
+    <div id="lightbox" class="invisible">
+      <div id="lightbox_content_wrapper">
+        <div id="lightbox_media"></div>
+        <div id="prev">
+          <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div id="next">
+          <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </div>
+        <button class="close"></button>
+      </div>
+    </div>
     <div id="modal-container">
       <form action="" method="GET" id="modal">
         <h1>Contactez-moi<br /><span id="modal-photographer-name"></span></h1>
