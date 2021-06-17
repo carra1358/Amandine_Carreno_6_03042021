@@ -125,7 +125,10 @@ main {
   justify-content: space-between;
   margin-top: 2%;
   :first-child {
-    width: 70%;
+    width: 60%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 
@@ -138,8 +141,16 @@ main {
   display: none;
 }
 
+#photographer-count {
+  display: none;
+}
+
 .visible {
   display: block;
+}
+
+.visible-flex {
+  display: flex;
 }
 
 .invisible {
@@ -149,21 +160,26 @@ main {
 /* modal */
 
 #modal-container {
-  display: none;
   justify-content: center;
   align-content: center;
   background-color: #db8876;
   padding: $margin-content;
   padding-top: 2%;
   z-index: 4;
-  position: absolute;
+  position: fixed;
   width: 86%;
+  height: 100vh;
   top: 0;
 }
 
 .form-data {
   display: flex;
   flex-direction: column;
+
+  p {
+    font-size: 12px;
+    margin: 0;
+  }
 }
 
 #modal {
@@ -172,12 +188,12 @@ main {
 
   h1 {
     margin: 0;
-    font-size: 2.25em;
+    font-size: 2.15em;
   }
 
   label {
-    font-size: 1.5em;
-    margin-top: 0.85em;
+    font-size: 1.3em;
+    margin-top: 0.75em;
   }
 
   #name,
@@ -317,16 +333,3 @@ main {
   width: 100%;
   height: 50vh;
 }
-/*
-
-#prev {
-  @include lightbox-navigation-buttons;
-  left: 11%;
-}
-
-#next {
-  @include lightbox-navigation-buttons;
-  right: 9%;
-}
-
-*/

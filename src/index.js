@@ -43,7 +43,7 @@ function renderNav(x, photographer) {
 function renderPhotographerCard(element) {
   template.innerHTML += `
 <li class="card">
-<a href="photographes.html?id=${element.id}&name=${element.name.split(" ")[0]}">
+<a href="photographes.html?id=${element.id}">
 <div class="profil-img"><img src="${
     "../images/PhotographersIDPhotos/" + element.portrait
   }" alt=""> </div> 
