@@ -54,6 +54,24 @@
     border-radius: 25px;
   }
 
+  #photographer-count {
+    display: flex;
+    justify-content: space-evenly;
+    position: fixed;
+    bottom: 0;
+    right: 36px;
+    background-color: #db8876;
+    width: 30%;
+    border-radius: 5px 5px 0 0;
+    font-size: 24px;
+    p {
+      margin: 0.5em;
+      .fa-heart {
+        font-size: 20px;
+      }
+    }
+  }
+
   main {
     margin: 5%;
   }
@@ -138,8 +156,6 @@
   }
   /* lightbox */
 
-  /* A TRANSFERER DANS RESPONSIVE*/
-
   .close {
     width: 32px;
     height: 32px;
@@ -195,7 +211,6 @@
   /* modal */
 
   #modal-container {
-    display: none;
     background-color: rgba(255, 255, 255, 0.459);
     padding-bottom: 60%;
     top: 3%;
@@ -204,12 +219,14 @@
   #modal {
     background-color: #db8876;
     width: 49%;
-    padding: 5%;
+    height: 80vh;
+    padding: 3%;
+    padding-bottom: 4%;
     padding-top: 2%;
     border-radius: 5px;
 
     #submit {
-      height: 69px;
+      height: 6vh;
     }
 
     input,
@@ -230,10 +247,11 @@
 
   #modal-envoyer {
     justify-content: start;
+    margin-top: 2vh;
   }
 
   .close {
-    right: 29%;
+    right: 27%;
     top: 3%;
   }
 } ;

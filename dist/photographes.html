@@ -20,6 +20,7 @@
       </div>
       <div id="photographer-profil"></div>
       <div id="photographer-tag"></div>
+      <div id="photographer-count"></div>
     </header>
     <main class="visible">
       <div id="filter-media">
@@ -62,25 +63,37 @@
         <button class="close"></button>
       </div>
     </div>
-    <div id="modal-container">
+    <div id="modal-container" class="invisible">
       <form action="" method="GET" id="modal">
         <h1>Contactez-moi<br /><span id="modal-photographer-name"></span></h1>
 
         <div class="form-data">
           <label for="name">Prénom</label>
           <input type="text" name="name" id="name" />
+          <p id="error-name" class="invisible">
+            Veuillez entrer 2 caractères ou plus dans le champs prénom.
+          </p>
         </div>
         <div class="form-data">
           <label for="lastname">Nom</label>
           <input type="text" name="lastname" id="lastname" />
+          <p id="error-lastname" class="invisible">
+            Veuillez entrer 2 caractères ou plus dans le champs prénom.
+          </p>
         </div>
         <div class="form-data">
           <label for="email">Email</label>
           <input type="email" name="email" id="email" />
+          <p id="error-email" class="invisible">
+            Veuillez entrer un E-mail valide.
+          </p>
         </div>
         <div class="form-data">
           <label for="message">Votre message</label>
           <textarea name="message" id="message" cols="30" rows="10"></textarea>
+          <p id="error-message" class="invisible">
+            Ce message ne peut être envoyer vide.
+          </p>
         </div>
 
         <div id="modal-envoyer">
@@ -89,6 +102,6 @@
         <div class="close"></div>
       </form>
     </div>
-    <script src="1a7a07537594d496cd42.js"></script>
+    <script src="130e3a928f2dea488557.js"></script>
   </body>
 </html>

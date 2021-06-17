@@ -11,6 +11,7 @@ const photographerTag = document.getElementById("photographer-tag");
 const modalPhotographerName = document.getElementById(
   "modal-photographer-name"
 );
+let photographerCount = document.getElementById("photographer-count");
 
 // DOM bouton trie
 const filtersMedia = document.getElementById("filters");
@@ -34,8 +35,6 @@ let previousMedia = 0;
 let singleMedia;
 const next = document.getElementById("next");
 const prev = document.getElementById("prev");
-// test event listenner
-const accesModal = document.getElementById("acces-modal");
 
 //Url params
 let querystring = window.location.search;
@@ -52,7 +51,13 @@ getData().then((data) => {
   );
   let media = data.default.media
     .filter((m) => m.photographerId == photographer.id)
-    .map((m) => factory(m));
+    .map((m) =>
+      factory({
+        ...m,
+        photographerName: photographer.name.split(" ")[0],
+        photographerRates: photographer.price,
+      })
+    );
   if (photographer === undefined) {
     window.location.href = "index.html";
   }
@@ -98,10 +103,16 @@ getData().then((data) => {
   buttonPopularity.click();
   modalPhotographerName.innerHTML = `${photographer.name}`;
 
-  function createMediaAndInteractions(media) {
+  function createMediaAndInteractions(media, photographer) {
     // render Media in the galerie
 
     galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+
+    // render photographer Likes and rate per day
+
+    let sumOfLikes = media.map((m) => m.likes).reduce((a, b) => a + b, 0);
+    const ratePerDay = media.map((m) => m.photographerRates)[0];
+    photographerCount.innerHTML = `<p>${sumOfLikes}<i class="fas fa-heart"></i></p> <p>${ratePerDay}/jour</p>`;
 
     // add interaction with likes buttons
 
@@ -111,6 +122,8 @@ getData().then((data) => {
         let likes = parseInt(el.dataset.id);
         let findM = media.find((m) => m.id == likes);
         el.firstChild.innerHTML = findM.addLikes();
+        sumOfLikes = sumOfLikes + 1;
+        photographerCount.firstChild.innerHTML = sumOfLikes++;
       })
     );
 
@@ -192,7 +205,17 @@ function renderTag(photographer) {
 }
 
 class Media {
-  constructor(id, photographerId, tags, likes, date, price, src, name) {
+  constructor(
+    id,
+    photographerId,
+    tags,
+    likes,
+    date,
+    price,
+    src,
+    photographerName,
+    photographerRates
+  ) {
     this.id = id;
     this.photographerId = photographerId;
     this.tags = tags;
@@ -200,7 +223,8 @@ class Media {
     this.date = date;
     this.price = price;
     this.src = src;
-    this.name = name;
+    this.photographerName = photographerName;
+    this.photographerRates = photographerRates;
   }
   createMediaContent() {}
   addLikes() {
@@ -213,9 +237,12 @@ class Media {
 class Video extends Media {
   createMediaContent() {
     return `<figure class="media">
-   <video id="${this.id}" class="preview" src="../images/${this.name}/${
-      this.src
-    }"></video>
+   <video id="${this.id}" class="preview" src="../images/${
+      this.photographerName
+    }/${this.src}" alt="${this.src
+      .split(/[._]/)
+      .slice(1, -1)
+      .join(" ")}"></video>
     <figcaption class="media-info">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
@@ -230,8 +257,8 @@ class Video extends Media {
     return `<figure>
           <video
             class="lightbox-img"
-            id="${this.id}" src="../images/${this.name}/${this.src}"
-            alt="">
+            id="${this.id}" src="../images/${this.photographerName}/${this.src}"
+            alt="${this.src.split(/[._]/).slice(1, -1).join(" ")}">
          </video>
           <figcaption class="media-info">${this.src
             .split(/[._]/)
@@ -246,9 +273,9 @@ class Video extends Media {
 class Image extends Media {
   createMediaContent() {
     return `<figure class="media">
-   <img class="preview" id="${this.id}" src="../images/${this.name}/${
-      this.src
-    }" alt="">
+   <img class="preview" id="${this.id}" src="../images/${
+      this.photographerName
+    }/${this.src}" alt="${this.src.split(/[._]/).slice(1, -1).join(" ")}">
     <figcaption class="media-info">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
@@ -263,8 +290,8 @@ class Image extends Media {
     return `<figure>
           <img
             class="lightbox-img"
-            id="${this.id}" src="../images/${this.name}/${this.src}"
-            alt=""
+            id="${this.id}" src="../images/${this.photographerName}/${this.src}"
+            alt="${this.src.split(/[._]/).slice(1, -1).join(" ")}"
           />
           <figcaption class="media-info">${this.src
             .split(/[._]/)
@@ -286,7 +313,8 @@ function factory(media) {
       media.date,
       media.price,
       media.image,
-      getNameParams
+      media.photographerName,
+      media.photographerRates
     );
   } else if (media.hasOwnProperty("video")) {
     return new Video(
@@ -297,7 +325,8 @@ function factory(media) {
       media.date,
       media.price,
       media.video,
-      getNameParams
+      media.photographerName,
+      media.photographerRates
     );
   }
 }
@@ -309,22 +338,96 @@ closelightbox.addEventListener("click", () => {
   body.classList.remove("overflow");
 });
 
-/* function pour navigation entre media 
+// DOM contact form
+const modalContainer = document.getElementById("modal-container");
+const openModal = document.getElementById("acces-modal");
+const form = document.querySelector("form");
+const closeModal = modalContainer.querySelector(".close");
+const formName = document.getElementById("name");
+const formLastName = document.getElementById("lastname");
+const formEmail = document.getElementById("email");
+const formMessage = document.getElementById("message");
+const emailRegx = new RegExp("^[a-zA-Z0-9.-_-]+@[a-zA-Z0-9-_-]+[.]+[a-z]+$");
+const errorName = document.getElementById("error-name");
+const errorLastName = document.getElementById("error-lastname");
+const errorEmail = document.getElementById("error-email");
+const errorMessage = document.getElementById("error-message");
+openModal.addEventListener("click", () => {
+  modalContainer.classList.replace("invisible", "visible-flex");
+  body.classList.add("overflow");
+});
 
- img/vid.addEventListener("click", (e) => {
-  // trouve Media cliquer
+closeModal.addEventListener("click", () => {
+  modalContainer.classList.replace("visible-flex", "invisible");
+  body.classList.remove("overflow");
+});
 
-    let findM = media.find((m) => m.id == e.target.id);
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (formValidation() == true) {
+    modalContainer.classList.replace("visible-flex", "invisible");
+    let formComplited = {
+      prénom: formName.value,
+      nom: formLastName.value,
+      email: formEmail.value,
+    };
+    console.log(formComplited);
+    form.reset();
+  } else {
+    fieldValidation();
+  }
+});
 
-   // trouve son index
-    let i = media.indexOf(findM);
-    console.log(i);
-    console.log(findM);
-    // va au prochain media 
+function formValidation() {
+  if (
+    isNameValid() &&
+    isLastNameValid() &&
+    isEmailValid() &&
+    isMessageValid()
+  ) {
+    return true;
+  }
+}
 
-    console.log(media[i + 1]);
-  });
+function fieldValidation() {
+  isNameValid();
+  isLastNameValid();
+  isEmailValid();
+  isMessageValid();
+}
 
-  // ajouter le contenu a charger
+function isNameValid() {
+  if (formName.value.trim().length >= 2) {
+    errorName.classList.replace("visible", "invisible");
+    return true;
+  } else {
+    errorName.classList.replace("invisible", "visible");
+  }
+}
 
-*/
+function isLastNameValid() {
+  if (formLastName.value.trim().length >= 2) {
+    errorLastName.classList.replace("visible", "invisible");
+    return true;
+  } else {
+    errorLastName.classList.replace("invisible", "visible");
+  }
+}
+
+function isEmailValid() {
+  if (emailRegx.test(formEmail.value)) {
+    errorEmail.classList.replace("visible", "invisible");
+    return true;
+  } else {
+    errorEmail.classList.replace("invisible", "visible");
+  }
+}
+
+function isMessageValid() {
+  if (formMessage.value.trim().length > 0) {
+    errorMessage.classList.replace("visible", "invisible");
+    return true;
+  } else {
+    errorMessage.classList.replace("invisible", "visible");
+  }
+}
