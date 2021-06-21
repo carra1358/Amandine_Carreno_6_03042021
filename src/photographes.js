@@ -18,7 +18,6 @@ const filtersMedia = document.getElementById("filters");
 const buttonPopularity = document.getElementById("popularite");
 const buttonDate = document.getElementById("date");
 const buttonTittle = document.getElementById("titre");
-const chevron = document.getElementById("chevron");
 const buttonSelected = document.getElementById("selected_filter");
 let textSelected = document.getElementById("selected_text");
 
@@ -103,7 +102,7 @@ getData().then((data) => {
   buttonPopularity.click();
   modalPhotographerName.innerHTML = `${photographer.name}`;
 
-  function createMediaAndInteractions(media, photographer) {
+  function createMediaAndInteractions(media) {
     // render Media in the galerie
 
     galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
@@ -112,8 +111,8 @@ getData().then((data) => {
 
     let sumOfLikes = media.map((m) => m.likes).reduce((a, b) => a + b, 0);
     const ratePerDay = media.map((m) => m.photographerRates)[0];
-    photographerCount.innerHTML = `<p>${sumOfLikes}<i class="fas fa-heart"></i></p> <p>${ratePerDay}/jour</p>`;
-
+    photographerCount.innerHTML = `<p aria-label="total des j'aime"><span id="new-sum-of-likes">${sumOfLikes}</span><i class="fas fa-heart" aria-hidden="true"></i></p><p aria-label="tarif">${ratePerDay}/jour</p>`;
+    let newSumOfLikes = document.getElementById("new-sum-of-likes");
     // add interaction with likes buttons
 
     const allLikes = galerieMedia.querySelectorAll(".likes");
@@ -123,7 +122,7 @@ getData().then((data) => {
         let findM = media.find((m) => m.id == likes);
         el.firstChild.innerHTML = findM.addLikes();
         sumOfLikes = sumOfLikes + 1;
-        photographerCount.firstChild.innerHTML = sumOfLikes++;
+        newSumOfLikes.innerHTML = sumOfLikes++;
       })
     );
 
@@ -174,13 +173,13 @@ function makeButtonSelectedVisible() {
 
 function renderProfilInfo(photographer) {
   photographerProfil.innerHTML = `
-        <div id="profil-text">
-        <h1 id="profil-header">${photographer.name}</h1>
+        <div id="profil-text" aria-labelby="profil-header">
+        <h1 id="profil-header"> ${photographer.name}</h1>
         <p>
-            <span class="ville">${photographer.city}, ${
+            <span class="ville"> ${photographer.city}, ${
     photographer.country
   }</span><br>
-            <span class="quote">${photographer.tagline}</span><br>
+            <span class="quote"> ${photographer.tagline}</span><br>
             <span class="prix">${photographer.price}€/jour</span><br>
         </p>
        </div>
@@ -236,29 +235,36 @@ class Media {
 
 class Video extends Media {
   createMediaContent() {
-    return `<figure class="media">
-   <video id="${this.id}" class="preview" src="../images/${
-      this.photographerName
-    }/${this.src}" alt="${this.src
+    return `<li class="media" aria-label="video,${this.src
       .split(/[._]/)
       .slice(1, -1)
-      .join(" ")}"></video>
-    <figcaption class="media-info">
+      .join(" ")}" >
+   <video id="${
+     this.id
+   }" class="preview" role="link"  aria-label="agrandir la video"><source src="../images/${
+      this.photographerName
+    }/${this.src}" type="video/mp4"></video>
+    <p class="media-info" aria-label="informations">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
-          <span class="likes" data-id="${this.id}"><span>${
+          <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
-    }</span><i class="fas fa-heart"></i></span>
-    </figcaption>
-    </figure>`;
+    }</span><i class="fas fa-heart" role="button"aria-label="ajoutez un j'aime"></i></span>
+    </p>
+    </li>`;
   }
 
   renderLightboxMedia() {
     return `<figure>
-          <video
+          <video role="link" aria-label="${this.src
+            .split(/[._]/)
+            .slice(1, -1)
+            .join(" ")}" controls width="250"
             class="lightbox-img"
-            id="${this.id}" src="../images/${this.photographerName}/${this.src}"
-            alt="${this.src.split(/[._]/).slice(1, -1).join(" ")}">
+            id="${this.id}">
+            <source src="../images/${this.photographerName}/${
+      this.src
+    }" type="video/mp4">
          </video>
           <figcaption class="media-info">${this.src
             .split(/[._]/)
@@ -272,18 +278,24 @@ class Video extends Media {
 
 class Image extends Media {
   createMediaContent() {
-    return `<figure class="media">
-   <img class="preview" id="${this.id}" src="../images/${
-      this.photographerName
-    }/${this.src}" alt="${this.src.split(/[._]/).slice(1, -1).join(" ")}">
-    <figcaption class="media-info">
+    return `<li class="media" aria-label="image,${this.src
+      .split(/[._]/)
+      .slice(1, -1)
+      .join(" ")}">
+   <img class="preview" role="link" aria-label="agrandir l'image" id="${
+     this.id
+   }" src="../images/${this.photographerName}/${this.src}" alt="${this.src
+      .split(/[._]/)
+      .slice(1, -1)
+      .join(" ")}">
+    <p class="media-info" aria-label="informations">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
-        <span class="likes" data-id="${this.id}"><span>${
+        <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
-    }</span><i class="fas fa-heart"></i></span>
-    </figcaption>
-    </figure>`;
+    }</span><i class="fas fa-heart" role="button" aria-label="ajoutez un j'aime"></i></span>
+    </p>
+    </li>`;
   }
 
   renderLightboxMedia() {

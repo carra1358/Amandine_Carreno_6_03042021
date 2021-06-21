@@ -12,44 +12,57 @@
     <title>photographes</title>
   <script defer src="runtime.bundle.js"></script><script defer src="vendors-node_modules_fortawesome_fontawesome-svg-core_index_es_js-node_modules_css-loader_dis-c824af.bundle.js"></script><script defer src="photographes.bundle.js"></script></head>
   <body>
-    <header id="header-photographer" role="banner" class="visible">
+    <header id="header-photographer" class="visible">
       <div id="logo">
-        <a href="index.html"
+        <a href="index.html" aria-label="alller à la page d'acceuil"
           ><img src="1ce92a71b605a2d2796f.png" alt="home page"
         /></a>
       </div>
-      <div id="photographer-profil"></div>
-      <div id="photographer-tag"></div>
-      <div id="photographer-count"></div>
+      <div
+        id="photographer-profil"
+        aria-label="informations sur ce photographe"
+      ></div>
+      <div
+        id="photographer-tag"
+        role="navigation"
+        aria-label="tag du photographe"
+      ></div>
+      <div id="photographer-count" role="complementary"></div>
     </header>
     <main class="visible">
-      <div id="filter-media">
-        <p>Trier par</p>
-        <div id="filters">
-          <button id="selected_filter" class="visible">
+      <div id="filter-media" aria-labelledby="orderby">
+        <p id="orderby">Trier par</p>
+        <ul id="filters">
+          <button
+            role="button"
+            aria-haspopup="listbox"
+            aria-owns="hidden_filters"
+            id="selected_filter"
+            class="visible"
+          >
             <span id="selected_text">Popularité</span>
-            <i id="chevron" class="fas fa-chevron-down" aria-hidden="true"></i>
+            <i class="fas fa-chevron-down" aria-hidden="true"></i>
           </button>
           <div id="hidden_filters">
-            <button id="popularite" class="invisible">
+            <button
+              id="popularite"
+              aria-labelledby="popularite"
+              class="invisible"
+            >
               Popularité
-              <i
-                id="chevron"
-                class="fas fa-chevron-up"
-                aria-hidden="true"
-              ></i></button
+              <i class="fas fa-chevron-up" aria-hidden="true"></i></button
             ><span class="buttons-separator" aria-hidden="true"></span>
             <button id="date" class="invisible">Date</button
             ><span class="buttons-separator" aria-hidden="true"></span>
             <button id="titre" class="invisible">Titre</button>
           </div>
-        </div>
+        </ul>
       </div>
 
-      <section id="galerie-media"></section>
-      <section id="contact-wrap">
+      <ul id="galerie-media" aria-label="galerie"></ul>
+      <div id="contact-wrap">
         <button id="acces-modal">Contactez-moi</button>
-      </section>
+      </div>
     </main>
     <div id="lightbox" class="invisible">
       <div id="lightbox_content_wrapper">
@@ -64,7 +77,7 @@
       </div>
     </div>
     <div id="modal-container" class="invisible">
-      <form action="" method="GET" id="modal">
+      <form method="GET" id="modal">
         <h1>Contactez-moi<br /><span id="modal-photographer-name"></span></h1>
 
         <div class="form-data">
@@ -102,6 +115,6 @@
         <div class="close"></div>
       </form>
     </div>
-    <script src="130e3a928f2dea488557.js"></script>
+    <script src="9b95239aeb68a06da7d0.js"></script>
   </body>
 </html>
