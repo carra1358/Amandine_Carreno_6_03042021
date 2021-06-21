@@ -12,22 +12,24 @@
     <title>Fisheye</title>
   </head>
   <body>
-    <div id="anchor-main"><a href="#main">Passer au contenu</a></div>
+    <a id="anchor-main" href="#main" aria-labelledby="anchor-main"
+      >Passer au contenu</a
+    >
 
-    <header id="header-index" role="banner">
+    <header id="header-index">
       <div id="logo">
-        <a href="index.html"
-          ><img src="images/Logo/logo.png" alt="home page"
+        <a href="index.html" aria-label="alller à la page d'acceuil"
+          ><img src="images/Logo/logo.png" alt="home page" aria-hidden="true"
         /></a>
       </div>
 
-      <nav role="navigation" aria-label="main navigation">
-        <ul class="navigation"></ul>
+      <nav aria-label="navigation principale :filtrer nos photographes ">
+        <ul class="navigation" aria-label="sélectionner un tag"></ul>
       </nav>
     </header>
 
     <main id="main">
-      <h1 id="main-title">Nos photographes</h1>
+      <h1 id="main-title" aria-labelledby="main-title">Nos photographes</h1>
 
       <ul class="card-wrap" id="nos_photographes"></ul>
     </main>

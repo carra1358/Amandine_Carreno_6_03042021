@@ -47,17 +47,19 @@
 }
 
 #anchor-main {
-  display: none;
-  @include align-text-center;
-
-  a {
-    color: black;
-    background: #db8876;
-    border-radius: 5px;
-    font-family: "roboto";
-    font-size: 18px;
-    padding: 5px;
-    @include align-text-center;
+  position: fixed;
+  right: 50%;
+  top: 0;
+  color: black;
+  background: #db8876;
+  border-radius: 5px;
+  font-family: "roboto";
+  font-size: 18px;
+  padding: 5px;
+  text-align: center;
+  opacity: 0;
+  &:focus {
+    opacity: 1;
   }
 }
 

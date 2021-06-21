@@ -42,23 +42,31 @@ function renderNav(x, photographer) {
 
 function renderPhotographerCard(element) {
   template.innerHTML += `
-<li class="card">
-<a href="photographes.html?id=${element.id}">
+<li aria-label="profil de ${element.name}" class="card">
+<a href="photographes.html?id=${
+    element.id
+  }" aria-label="lien vers le profil de ${element.name}">
 <div class="profil-img"><img src="${
     "../images/PhotographersIDPhotos/" + element.portrait
   }" alt=""> </div> 
 <h2>${element.name}</h2>
 </a>
-<p>
-    <span class="ville">${element.city}, ${element.country}</span><br>
-    <span class="quote">${element.tagline}</span><br>
-    <span class="prix">${element.price}€/jour</span><br>
+<p aria-label="informations sur ce photographes">
+    <span class="ville"><span class="screen-reader">ville</span> ${
+      element.city
+    }, ${element.country}</span><br>
+    <span class="quote"><span class="screen-reader">citation</span> ${
+      element.tagline
+    }</span><br>
+    <span class="tarif"><span class="screen-reader">prix</span>${
+      element.price
+    }€/jour</span><br>
 </p>
-<div class="card-tagwrapper">
+<div class="card-tagwrapper" role="navigation" aria-label="navigation secondaire: tags du photographes">
    ${element.tags
      .map(
        (tag) =>
-         `<span class="screen-reader">tag</span> <a href="#" class="tag ${tag}"><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`
+         `<span class="screen-reader">tag</span> <a href="#" class="tag ${tag}" ><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`
      )
      .join("")}
 </div>
