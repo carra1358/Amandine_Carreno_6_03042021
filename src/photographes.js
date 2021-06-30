@@ -14,7 +14,7 @@ const modalPhotographerName = document.getElementById(
 let photographerCount = document.getElementById("photographer-count");
 
 // DOM bouton trie
-const filtersMedia = document.getElementById("filters");
+const filterMedia = document.getElementById("filter-media");
 const buttonPopularity = document.getElementById("popularite");
 const buttonDate = document.getElementById("date");
 const buttonTittle = document.getElementById("titre");
@@ -26,7 +26,7 @@ const header = document.querySelector("header");
 const main = document.querySelector("main");
 const lightbox = document.getElementById("lightbox");
 const lightboxMedia = document.getElementById("lightbox_media");
-const closelightbox = document.querySelector(".close");
+const closelightbox = lightbox.querySelector(".close");
 const body = document.querySelector("body");
 let currentIndex = 0;
 let nextMedia = 0;
@@ -66,13 +66,26 @@ getData().then((data) => {
     buttonTittle.classList.replace("invisible", "visible");
     buttonPopularity.classList.replace("invisible", "visible");
     buttonSelected.classList.replace("visible", "invisible");
+    buttonSelected.setAttribute("aria-expanded", "true");
+    buttonPopularity.focus();
   });
+
+  function makeButtonSelectedVisible() {
+    buttonDate.classList.replace("visible", "invisible");
+    buttonTittle.classList.replace("visible", "invisible");
+    buttonPopularity.classList.replace("visible", "invisible");
+    buttonSelected.classList.replace("invisible", "visible");
+    buttonSelected.setAttribute("aria-expanded", "false");
+  }
 
   buttonPopularity.addEventListener("click", () => {
     media.sort((a, b) => a.likes - b.likes).reverse();
     createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Popularité";
+    buttonPopularity.setAttribute("aria-selected", "true");
+    buttonDate.setAttribute("aria-selected", "false");
+    buttonTittle.setAttribute("aria-selected", "false");
   });
 
   buttonDate.addEventListener("click", () => {
@@ -80,6 +93,10 @@ getData().then((data) => {
     createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Date";
+    buttonDate.setAttribute("aria-selected", "true");
+    buttonPopularity.setAttribute("aria-selected", "false");
+    buttonTittle.setAttribute("aria-selected", "false");
+    buttonSelected.focus();
   });
 
   buttonTittle.addEventListener("click", (e) => {
@@ -95,6 +112,10 @@ getData().then((data) => {
     createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Titre";
+    buttonTittle.setAttribute("aria-selected", "true");
+    buttonPopularity.setAttribute("aria-selected", "false");
+    buttonDate.setAttribute("aria-selected", "false");
+    buttonSelected.focus();
   });
 
   renderProfilInfo(photographer);
@@ -132,16 +153,37 @@ getData().then((data) => {
     allMedia.forEach((el) => {
       el.addEventListener("click", (e) => {
         header.classList.replace("visible", "invisible");
+        header.setAttribute("aria-hidden", "true");
+        main.setAttribute("aria-hidden", "true");
         main.classList.replace("visible", "invisible");
         lightbox.classList.replace("invisible", "visible");
         body.classList.add("overflow");
         singleMedia = media.find((m) => m.id == e.target.id);
         lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
         currentIndex = media.findIndex((el) => el.id == e.target.id);
+        lightbox.focus();
       });
     });
 
     // lightbox navigation
+
+    document.onkeydown = navigationKey;
+
+    function navigationKey(e) {
+      e = e || window.event;
+
+      if (e.keyCode == "37" && lightbox.classList.contains("visible")) {
+        // left arrow
+        currentIndex--;
+        previousMedia = media[currentIndex];
+        lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
+      } else if (e.keyCode == "39" && lightbox.classList.contains("visible")) {
+        // right arrow
+        currentIndex++;
+        nextMedia = media[currentIndex];
+        lightboxMedia.innerHTML = nextMedia.renderLightboxMedia();
+      }
+    }
 
     next.addEventListener("click", () => {
       if (currentIndex == media.length - 1) {
@@ -164,23 +206,20 @@ getData().then((data) => {
   }
 });
 
-function makeButtonSelectedVisible() {
-  buttonDate.classList.replace("visible", "invisible");
-  buttonTittle.classList.replace("visible", "invisible");
-  buttonPopularity.classList.replace("visible", "invisible");
-  buttonSelected.classList.replace("invisible", "visible");
-}
-
 function renderProfilInfo(photographer) {
   photographerProfil.innerHTML = `
         <div id="profil-text" aria-labelby="profil-header">
         <h1 id="profil-header"> ${photographer.name}</h1>
         <p>
-            <span class="ville"> ${photographer.city}, ${
-    photographer.country
-  }</span><br>
-            <span class="quote"> ${photographer.tagline}</span><br>
-            <span class="prix">${photographer.price}€/jour</span><br>
+            <span class="ville"><span class="screen-reader">ville</span>${
+              photographer.city
+            }, ${photographer.country}</span><br>
+            <span class="quote"><span class="screen-reader">citation</span>${
+              photographer.tagline
+            }</span><br>
+            <span class="prix"><span class="screen-reader">prix</span>${
+              photographer.price
+            }€/jour</span><br>
         </p>
        </div>
         <div class="profil-img"><img id="profil-img-photographes" src="${
@@ -241,12 +280,15 @@ class Video extends Media {
       .join(" ")}" >
    <video id="${
      this.id
-   }" class="preview" role="link"  aria-label="agrandir la video"><source src="../images/${
+   }" class="preview" role="link"  aria-hashpopup="dialog" aria-label="agrandir la video"><source src="../images/${
       this.photographerName
     }/${this.src}" type="video/mp4"></video>
     <p class="media-info" aria-label="informations">
-        <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
-        <span>${this.price}€</span>
+        <span><span class="screen-reader">titre</span>${this.src
+          .split(/[._]/)
+          .slice(1, -1)
+          .join(" ")}</span>
+        <span><span class="screen-reader">prix</span>${this.price}€</span>
           <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
     }</span><i class="fas fa-heart" role="button"aria-label="ajoutez un j'aime"></i></span>
@@ -256,7 +298,7 @@ class Video extends Media {
 
   renderLightboxMedia() {
     return `<figure>
-          <video role="link" aria-label="${this.src
+          <video  aria-label="vidéo,${this.src
             .split(/[._]/)
             .slice(1, -1)
             .join(" ")}" controls width="250"
@@ -266,7 +308,7 @@ class Video extends Media {
       this.src
     }" type="video/mp4">
          </video>
-          <figcaption class="media-info">${this.src
+          <figcaption class="media-info"><span class="screen-reader">titre</span>${this.src
             .split(/[._]/)
             .slice(1, -1)
             .join(" ")}
@@ -282,15 +324,18 @@ class Image extends Media {
       .split(/[._]/)
       .slice(1, -1)
       .join(" ")}">
-   <img class="preview" role="link" aria-label="agrandir l'image" id="${
+   <img class="preview" role="link" aria-hashpopup="dialog" aria-label="agrandir l'image" id="${
      this.id
    }" src="../images/${this.photographerName}/${this.src}" alt="${this.src
       .split(/[._]/)
       .slice(1, -1)
       .join(" ")}">
     <p class="media-info" aria-label="informations">
-        <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
-        <span>${this.price}€</span>
+        <span><span class="screen-reader">titre</span>${this.src
+          .split(/[._]/)
+          .slice(1, -1)
+          .join(" ")}</span>
+        <span><span class="screen-reader">prix</span>${this.price}€</span>
         <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
     }</span><i class="fas fa-heart" role="button" aria-label="ajoutez un j'aime"></i></span>
@@ -303,9 +348,9 @@ class Image extends Media {
           <img
             class="lightbox-img"
             id="${this.id}" src="../images/${this.photographerName}/${this.src}"
-            alt="${this.src.split(/[._]/).slice(1, -1).join(" ")}"
+            alt="image,${this.src.split(/[._]/).slice(1, -1).join(" ")}"
           />
-          <figcaption class="media-info">${this.src
+          <figcaption class="media-info"><span class="screen-reader">titre</span>${this.src
             .split(/[._]/)
             .slice(1, -1)
             .join(" ")}
@@ -348,9 +393,12 @@ closelightbox.addEventListener("click", () => {
   header.classList.replace("invisible", "visible");
   main.classList.replace("invisible", "visible");
   body.classList.remove("overflow");
+  header.setAttribute("aria-hidden", "false");
+  main.setAttribute("aria-hidden", "false");
 });
 
 // DOM contact form
+const mainTop = document.getElementById("main_top");
 const modalContainer = document.getElementById("modal-container");
 const openModal = document.getElementById("acces-modal");
 const form = document.querySelector("form");
@@ -364,14 +412,28 @@ const errorName = document.getElementById("error-name");
 const errorLastName = document.getElementById("error-lastname");
 const errorEmail = document.getElementById("error-email");
 const errorMessage = document.getElementById("error-message");
+
 openModal.addEventListener("click", () => {
+  header.setAttribute("aria-hidden", "true");
+  mainTop.setAttribute("aria-hidden", "true");
+  filterMedia.setAttribute("aria-hidden", "true");
+  galerieMedia.setAttribute("aria-hidden", "true");
+  openModal.classList.add("invisible");
+  openModal.setAttribute("aria-expanded", "true");
   modalContainer.classList.replace("invisible", "visible-flex");
   body.classList.add("overflow");
+  formName.focus();
 });
 
 closeModal.addEventListener("click", () => {
   modalContainer.classList.replace("visible-flex", "invisible");
   body.classList.remove("overflow");
+  openModal.setAttribute("aria-expanded", "false");
+  header.setAttribute("aria-hidden", "false");
+  mainTop.setAttribute("aria-hidden", "false");
+  filterMedia.setAttribute("aria-hidden", "false");
+  galerieMedia.setAttribute("aria-hidden", "false");
+  openModal.classList.remove("invisible");
 });
 
 form.addEventListener("submit", (e) => {
@@ -385,6 +447,12 @@ form.addEventListener("submit", (e) => {
     };
     console.log(formComplited);
     form.reset();
+    openModal.setAttribute("aria-expanded", "false");
+    header.setAttribute("aria-hidden", "false");
+    mainTop.setAttribute("aria-hidden", "false");
+    filterMedia.setAttribute("aria-hidden", "false");
+    galerieMedia.setAttribute("aria-hidden", "false");
+    openModal.classList.remove("invisible");
   } else {
     fieldValidation();
   }
@@ -398,6 +466,8 @@ function formValidation() {
     isMessageValid()
   ) {
     return true;
+  } else {
+    return false;
   }
 }
 
@@ -411,8 +481,11 @@ function fieldValidation() {
 function isNameValid() {
   if (formName.value.trim().length >= 2) {
     errorName.classList.replace("visible", "invisible");
+    formName.setAttribute("aria-invalid", "false");
+    formName.setAttribute("aria-describedby", "error-name");
     return true;
   } else {
+    formName.setAttribute("aria-invalid", "true");
     errorName.classList.replace("invisible", "visible");
   }
 }
@@ -420,8 +493,11 @@ function isNameValid() {
 function isLastNameValid() {
   if (formLastName.value.trim().length >= 2) {
     errorLastName.classList.replace("visible", "invisible");
+    formLastName.setAttribute("aria-invalid", "false");
+    formLastName.setAttribute("aria-describedby", "error-lastname");
     return true;
   } else {
+    formLastName.setAttribute("aria-invalid", "true");
     errorLastName.classList.replace("invisible", "visible");
   }
 }
@@ -429,8 +505,11 @@ function isLastNameValid() {
 function isEmailValid() {
   if (emailRegx.test(formEmail.value)) {
     errorEmail.classList.replace("visible", "invisible");
+    formEmail.setAttribute("aria-invalid", "false");
+    formEmail.setAttribute("aria-describedby", "error-email");
     return true;
   } else {
+    formEmail.setAttribute("aria-invalid", "true");
     errorEmail.classList.replace("invisible", "visible");
   }
 }
@@ -438,8 +517,11 @@ function isEmailValid() {
 function isMessageValid() {
   if (formMessage.value.trim().length > 0) {
     errorMessage.classList.replace("visible", "invisible");
+    formMessage.setAttribute("aria-invalid", "false");
+    formMessage.setAttribute("aria-describedby", "error-message");
     return true;
   } else {
+    formMessage.setAttribute("aria-invalid", "true");
     errorMessage.classList.replace("invisible", "visible");
   }
 }
