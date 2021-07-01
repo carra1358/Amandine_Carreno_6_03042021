@@ -39,7 +39,6 @@ const prev = document.getElementById("prev");
 let querystring = window.location.search;
 const urlParams = new URLSearchParams(querystring);
 const getIdParams = urlParams.get("id");
-const getNameParams = urlParams.get("name");
 
 //importation du json
 const getData = () => import("./data/data.json");
@@ -162,6 +161,7 @@ getData().then((data) => {
         lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
         currentIndex = media.findIndex((el) => el.id == e.target.id);
         lightbox.focus();
+        console.log(singleMedia);
       });
     });
 
@@ -278,9 +278,9 @@ class Video extends Media {
       .split(/[._]/)
       .slice(1, -1)
       .join(" ")}" >
-   <video id="${
-     this.id
-   }" class="preview"  aria-label="agrandir la video"><source src="../images/${
+<video role="lien" class="preview" id="${
+      this.id
+    }"  aria-label="agrandir la video"><source src="../images/${
       this.photographerName
     }/${this.src}" type="video/mp4"></video> 
     <p class="media-info" aria-label="informations">
@@ -303,7 +303,7 @@ class Video extends Media {
             .slice(1, -1)
             .join(" ")}" controls width="250"
             class="lightbox-img"
-            id="${this.id}">
+            id="${this.id}_lightbox">
             <source src="../images/${this.photographerName}/${
       this.src
     }" type="video/mp4">
@@ -324,7 +324,7 @@ class Image extends Media {
       .split(/[._]/)
       .slice(1, -1)
       .join(" ")}">
-   <img class="preview"  aria-label="agrandir l'image" id="${
+   <img class="preview" role="link" aria-label="agrandir l'image" id="${
      this.id
    }" src="../images/${this.photographerName}/${this.src}" alt="${this.src
       .split(/[._]/)
@@ -344,7 +344,9 @@ class Image extends Media {
     return `<figure>
           <img
             class="lightbox-img"
-            id="${this.id}" src="../images/${this.photographerName}/${this.src}"
+            id="${this.id}_lightbox" src="../images/${this.photographerName}/${
+      this.src
+    }"
             alt="image,${this.src.split(/[._]/).slice(1, -1).join(" ")}"
           />
           <figcaption class="media-info"><span class="screen-reader">titre</span>${this.src
