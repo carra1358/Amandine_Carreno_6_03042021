@@ -208,7 +208,7 @@ getData().then((data) => {
 
 function renderProfilInfo(photographer) {
   photographerProfil.innerHTML = `
-        <div id="profil-text" aria-labelby="profil-header">
+        <div id="profil-text" >
         <h1 id="profil-header"> ${photographer.name}</h1>
         <p>
             <span class="ville"><span class="screen-reader">ville</span>${
@@ -280,15 +280,15 @@ class Video extends Media {
       .join(" ")}" >
    <video id="${
      this.id
-   }" class="preview" role="link"  aria-hashpopup="dialog" aria-label="agrandir la video"><source src="../images/${
+   }" class="preview"  aria-label="agrandir la video"><source src="../images/${
       this.photographerName
-    }/${this.src}" type="video/mp4"></video>
+    }/${this.src}" type="video/mp4"></video> 
     <p class="media-info" aria-label="informations">
         <span><span class="screen-reader">titre</span>${this.src
           .split(/[._]/)
           .slice(1, -1)
           .join(" ")}</span>
-        <span><span class="screen-reader">prix</span>${this.price}€</span>
+        <span>${this.price}€</span>
           <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
     }</span><i class="fas fa-heart" role="button"aria-label="ajoutez un j'aime"></i></span>
@@ -324,18 +324,15 @@ class Image extends Media {
       .split(/[._]/)
       .slice(1, -1)
       .join(" ")}">
-   <img class="preview" role="link" aria-hashpopup="dialog" aria-label="agrandir l'image" id="${
+   <img class="preview"  aria-label="agrandir l'image" id="${
      this.id
    }" src="../images/${this.photographerName}/${this.src}" alt="${this.src
       .split(/[._]/)
       .slice(1, -1)
       .join(" ")}">
     <p class="media-info" aria-label="informations">
-        <span><span class="screen-reader">titre</span>${this.src
-          .split(/[._]/)
-          .slice(1, -1)
-          .join(" ")}</span>
-        <span><span class="screen-reader">prix</span>${this.price}€</span>
+        <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
+        <span>${this.price}€</span>
         <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
     }</span><i class="fas fa-heart" role="button" aria-label="ajoutez un j'aime"></i></span>
