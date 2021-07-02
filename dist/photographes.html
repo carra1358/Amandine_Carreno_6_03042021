@@ -12,14 +12,14 @@
     <title>photographes</title>
   <script defer src="runtime.bundle.js"></script><script defer src="vendors-node_modules_fortawesome_fontawesome-svg-core_index_es_js-node_modules_css-loader_dis-c824af.bundle.js"></script><script defer src="photographes.bundle.js"></script></head>
   <body>
-    <header id="header-photographer" class="visible">
+    <header class="visible">
       <div id="logo">
         <a href="index.html" aria-label="alller à la page d'acceuil"
           ><img src="1ce92a71b605a2d2796f.png" alt="home page"
         /></a>
       </div>
     </header>
-    <main class="visible">
+    <main class="main visible">
       <section id="main_top">
         <div
           id="photographer-profil"
@@ -79,11 +79,10 @@
           </div>
         </div>
       </div>
-      <ul id="galerie-media" aria-label="galerie" role="main"></ul>
+      <ul id="galerie-media" aria-label="galerie" role="group"></ul>
       <div id="contact-wrap">
         <button
           id="acces-modal"
-          role="button"
           aria-label="ouvrir le formulaire de contact"
           aria-controls="modal-container"
           aria-haspopup="dialog"
@@ -105,7 +104,7 @@
           <div class="form-data">
             <label id="champs_prenom" for="name">Prénom</label>
             <input
-              role="textfield"
+              role="textbox"
               aria-labelledby="champs_prenom"
               type="text"
               name="name"
@@ -121,7 +120,7 @@
             <label id="champs_nom" for="lastname">Nom</label>
             <input
               type="text"
-              role="texfield"
+              role="textbox"
               aria-labelledby="champs_nom"
               name="lastname"
               id="lastname"
@@ -136,7 +135,7 @@
             <label id="champs_mail" for="email">Email</label>
             <input
               type="email"
-              role="textfield"
+              role="textbox"
               aria-labelledby="champs_mail"
               name="email"
               id="email"
@@ -151,7 +150,7 @@
             <label id="champs_message" for="message">Votre message</label>
             <textarea
               name="message"
-              role="textfield"
+              role="textbox"
               aria-labelledby="champs_message"
               id="message"
               cols="30"
@@ -188,26 +187,16 @@
     >
       <div id="lightbox_content_wrapper">
         <div id="lightbox_media"></div>
-        <div
-          id="prev"
-          role="link"
-          aria-controls="lightbox_media"
-          aria-label="image précédente"
-        >
-          <i class="fas fa-chevron-left" aria-hidden="true"></i>
-        </div>
-        <div
-          id="next"
-          role="link"
-          aria-controls="lightbox_media"
-          aria-label="image suivante"
-        >
-          <i class="fas fa-chevron-right" aria-hidden="true"></i>
-        </div>
+        <a id="prev" href="#" aria-label="image précédente"
+          ><i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </a>
+        <a id="next" href="#" aria-label="image suivante"
+          ><i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </a>
         <button class="close" aria-label="fermer la fenêtre de dialog"></button>
       </div>
     </div>
 
-    <script src="39d1a0cace4f02a55119.js"></script>
+    <script src="960fb19d2fd6b76aaa66.js"></script>
   </body>
 </html>
