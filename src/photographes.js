@@ -149,6 +149,7 @@ getData().then((data) => {
     // create lightbox
 
     const allMedia = galerieMedia.querySelectorAll(".preview");
+
     allMedia.forEach((el) => {
       el.addEventListener("click", (e) => {
         header.classList.replace("visible", "invisible");
@@ -157,11 +158,12 @@ getData().then((data) => {
         main.classList.replace("visible", "invisible");
         lightbox.classList.replace("invisible", "visible");
         body.classList.add("overflow");
-        singleMedia = media.find((m) => m.id == e.target.id);
+        singleMedia = media.find((m) => m.id == parseInt(el.dataset.id));
+        //singleMedia = media.find((m) => m.id == e.target.id);
         lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
-        currentIndex = media.findIndex((el) => el.id == e.target.id);
-        lightbox.focus();
-        console.log(singleMedia);
+        currentIndex = media.findIndex(
+          (el) => el.id == parseInt(el.dataset.id)
+        );
       });
     });
 
@@ -277,12 +279,13 @@ class Video extends Media {
     return `<li class="media" aria-label="video,${this.src
       .split(/[._]/)
       .slice(1, -1)
-      .join(" ")}" >
-<video role="lien" class="preview" id="${
-      this.id
-    }"  aria-label="agrandir la video"><source src="../images/${
-      this.photographerName
-    }/${this.src}" type="video/mp4"></video> 
+      .join(" ")}" > 
+      <a class="preview" href="#" data-id="${
+        this.id
+      }"  aria-label="agrandir la video">
+   <video ><source src="../images/${this.photographerName}/${
+      this.src
+    }" type="video/mp4"></video>  </a>
     <p class="media-info" aria-label="informations">
         <span><span class="screen-reader">titre</span>${this.src
           .split(/[._]/)
@@ -298,17 +301,18 @@ class Video extends Media {
 
   renderLightboxMedia() {
     return `<figure>
+         
           <video  aria-label="vidéo,${this.src
             .split(/[._]/)
             .slice(1, -1)
             .join(" ")}" controls width="250"
             class="lightbox-img"
-            id="${this.id}_lightbox">
+            data-id="${this.id}">
             <source src="../images/${this.photographerName}/${
       this.src
     }" type="video/mp4">
          </video>
-          <figcaption class="media-info"><span class="screen-reader">titre</span>${this.src
+          <figcaption class="media-info">${this.src
             .split(/[._]/)
             .slice(1, -1)
             .join(" ")}
@@ -324,7 +328,7 @@ class Image extends Media {
       .split(/[._]/)
       .slice(1, -1)
       .join(" ")}">
-   <img class="preview" role="link" aria-label="agrandir l'image" id="${
+   <img class="preview" role="link" aria-label="agrandir l'image" data-id="${
      this.id
    }" src="../images/${this.photographerName}/${this.src}" alt="${this.src
       .split(/[._]/)
@@ -344,12 +348,12 @@ class Image extends Media {
     return `<figure>
           <img
             class="lightbox-img"
-            id="${this.id}_lightbox" src="../images/${this.photographerName}/${
+            data-id="${this.id}" src="../images/${this.photographerName}/${
       this.src
     }"
             alt="image,${this.src.split(/[._]/).slice(1, -1).join(" ")}"
           />
-          <figcaption class="media-info"><span class="screen-reader">titre</span>${this.src
+          <figcaption class="media-info">${this.src
             .split(/[._]/)
             .slice(1, -1)
             .join(" ")}
