@@ -158,12 +158,11 @@ getData().then((data) => {
         main.classList.replace("visible", "invisible");
         lightbox.classList.replace("invisible", "visible");
         body.classList.add("overflow");
-        singleMedia = media.find((m) => m.id == parseInt(el.dataset.id));
+        let findSingleMedia = parseInt(el.dataset.id);
+        singleMedia = media.find((m) => m.id == findSingleMedia);
         //singleMedia = media.find((m) => m.id == e.target.id);
         lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
-        currentIndex = media.findIndex(
-          (el) => el.id == parseInt(el.dataset.id)
-        );
+        currentIndex = media.findIndex((el) => el.id == findSingleMedia);
       });
     });
 
@@ -206,6 +205,15 @@ getData().then((data) => {
       lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
     });
   }
+});
+
+closelightbox.addEventListener("click", () => {
+  lightbox.classList.replace("visible", "invisible");
+  header.classList.replace("invisible", "visible");
+  main.classList.replace("invisible", "visible");
+  body.classList.remove("overflow");
+  header.setAttribute("aria-hidden", "false");
+  main.setAttribute("aria-hidden", "false");
 });
 
 function renderProfilInfo(photographer) {
@@ -390,15 +398,6 @@ function factory(media) {
     );
   }
 }
-
-closelightbox.addEventListener("click", () => {
-  lightbox.classList.replace("visible", "invisible");
-  header.classList.replace("invisible", "visible");
-  main.classList.replace("invisible", "visible");
-  body.classList.remove("overflow");
-  header.setAttribute("aria-hidden", "false");
-  main.setAttribute("aria-hidden", "false");
-});
 
 // DOM contact form
 const mainTop = document.getElementById("main_top");
