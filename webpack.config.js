@@ -7,8 +7,8 @@ module.exports = {
   mode: process.env.mode,
 
   entry: {
-    index: "./src/index.js",
-    photographes: "./src/photographes.js",
+    index: path.resolve(__dirname, "src/index.js"),
+    photographes: path.resolve(__dirname, "src/photographes.js"),
   },
   output: {
     filename: "[name].bundle.js",
