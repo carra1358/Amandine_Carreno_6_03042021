@@ -11,56 +11,99 @@ const photographerTag = document.getElementById("photographer-tag");
 const modalPhotographerName = document.getElementById(
   "modal-photographer-name"
 );
+let photographerCount = document.getElementById("photographer-count");
 
 // DOM bouton trie
-const filtersMedia = document.getElementById("filters");
+const filterMedia = document.getElementById("filter-media");
 const buttonPopularity = document.getElementById("popularite");
 const buttonDate = document.getElementById("date");
 const buttonTittle = document.getElementById("titre");
-const chevron = document.getElementById("chevron");
 const buttonSelected = document.getElementById("selected_filter");
 let textSelected = document.getElementById("selected_text");
+
+//DOM lightbox
+const header = document.querySelector("header");
+const main = document.querySelector("main");
+const lightbox = document.getElementById("lightbox");
+const lightboxMedia = document.getElementById("lightbox_media");
+const closelightbox = lightbox.querySelector(".close");
+const body = document.querySelector("body");
+let currentIndex = 0;
+let nextMedia = 0;
+let previousMedia = 0;
+let singleMedia;
+const next = document.getElementById("next");
+const prev = document.getElementById("prev");
 
 //Url params
 let querystring = window.location.search;
 const urlParams = new URLSearchParams(querystring);
 const getIdParams = urlParams.get("id");
-const getNameParams = urlParams.get("name");
 
-//importation du json
+/** Appel récupération des données et gestion dynamique */
+
 const getData = () => import("./data/data.json");
 
 getData().then((data) => {
+  // trouve le photographe et les média correspondants
+
   const photographer = data.default.photographers.find(
     (p) => p.id == getIdParams
   );
   let media = data.default.media
     .filter((m) => m.photographerId == photographer.id)
-    .map((m) => factory(m));
+    .map((m) =>
+      factory({
+        ...m,
+        photographerName: photographer.name.split(" ")[0],
+        photographerRates: photographer.price,
+      })
+    );
   if (photographer === undefined) {
     window.location.href = "index.html";
   }
+
+  // Gestion event bouton de trie des média
+
   buttonSelected.addEventListener("click", () => {
     buttonDate.classList.replace("invisible", "visible");
     buttonTittle.classList.replace("invisible", "visible");
     buttonPopularity.classList.replace("invisible", "visible");
     buttonSelected.classList.replace("visible", "invisible");
+    buttonSelected.setAttribute("aria-expanded", "true");
+    buttonPopularity.focus();
   });
+
+  function makeButtonSelectedVisible() {
+    buttonDate.classList.replace("visible", "invisible");
+    buttonTittle.classList.replace("visible", "invisible");
+    buttonPopularity.classList.replace("visible", "invisible");
+    buttonSelected.classList.replace("invisible", "visible");
+    buttonSelected.setAttribute("aria-expanded", "false");
+  }
 
   buttonPopularity.addEventListener("click", () => {
     media.sort((a, b) => a.likes - b.likes).reverse();
-    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Popularité";
+    buttonPopularity.setAttribute("aria-selected", "true");
+    buttonDate.setAttribute("aria-selected", "false");
+    buttonTittle.setAttribute("aria-selected", "false");
   });
 
   buttonDate.addEventListener("click", () => {
     media.sort((a, b) => new Date(b.date) - new Date(a.date));
-    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Date";
+    buttonDate.setAttribute("aria-selected", "true");
+    buttonPopularity.setAttribute("aria-selected", "false");
+    buttonTittle.setAttribute("aria-selected", "false");
+    buttonSelected.focus();
   });
-  buttonTittle.addEventListener("click", () => {
+
+  buttonTittle.addEventListener("click", (e) => {
     media.sort((a, b) =>
       a.src
         .split("_")
@@ -70,43 +113,134 @@ getData().then((data) => {
           sensitivity: "base",
         })
     );
-    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+    createMediaAndInteractions(media);
     makeButtonSelectedVisible();
     textSelected.textContent = "Titre";
+    buttonTittle.setAttribute("aria-selected", "true");
+    buttonPopularity.setAttribute("aria-selected", "false");
+    buttonDate.setAttribute("aria-selected", "false");
+    buttonSelected.focus();
   });
 
   renderProfilInfo(photographer);
   renderTag(photographer);
   buttonPopularity.click();
-  const allLikes = galerieMedia.querySelectorAll(".likes");
-  allLikes.forEach((el) =>
-    el.addEventListener("click", (e) => {
-      let likes = parseInt(el.dataset.id);
-      let findM = media.find((m) => m.id == likes);
-      el.firstChild.innerHTML = findM.addLikes();
-    })
-  );
-
   modalPhotographerName.innerHTML = `${photographer.name}`;
+
+  function createMediaAndInteractions(media) {
+    // Affiche media dans la galerie
+
+    galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
+
+    // Affiche template informations complémentaires
+
+    let sumOfLikes = media.map((m) => m.likes).reduce((a, b) => a + b, 0);
+    const ratePerDay = media.map((m) => m.photographerRates)[0];
+    photographerCount.innerHTML = `<p aria-label="total des j'aime"><span id="new-sum-of-likes">${sumOfLikes}</span><i class="fas fa-heart" aria-hidden="true"></i></p><p aria-label="tarif">${ratePerDay}/jour</p>`;
+    let newSumOfLikes = document.getElementById("new-sum-of-likes");
+
+    // Event ajout 1 like sur chaque icone Likes
+
+    const allLikes = galerieMedia.querySelectorAll(".likes");
+    allLikes.forEach((el) =>
+      el.addEventListener("click", (e) => {
+        let likes = parseInt(el.dataset.id);
+        let findM = media.find((m) => m.id == likes);
+        el.firstChild.innerHTML = findM.addLikes();
+        sumOfLikes = sumOfLikes + 1;
+        newSumOfLikes.innerHTML = sumOfLikes++;
+      })
+    );
+
+    // Event génère lightbox
+
+    const allMedia = galerieMedia.querySelectorAll(".preview");
+
+    allMedia.forEach((el) => {
+      el.addEventListener("click", (e) => {
+        header.classList.replace("visible", "invisible");
+        header.setAttribute("aria-hidden", "true");
+        main.setAttribute("aria-hidden", "true");
+        main.classList.replace("visible", "invisible");
+        lightbox.classList.replace("invisible", "visible");
+        body.classList.add("overflow");
+        let findSingleMedia = parseInt(el.dataset.id);
+        singleMedia = media.find((m) => m.id == findSingleMedia);
+        lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
+        currentIndex = media.findIndex((el) => el.id == findSingleMedia);
+      });
+    });
+
+    /** Navigation de la Lightbox */
+
+    // naviagtion flêche droite et gauche
+
+    document.onkeydown = navigationKey;
+
+    function navigationKey(e) {
+      e = e || window.event;
+
+      if (e.keyCode == "37" && lightbox.classList.contains("visible")) {
+        currentIndex--;
+        previousMedia = media[currentIndex];
+        lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
+      } else if (e.keyCode == "39" && lightbox.classList.contains("visible")) {
+        currentIndex++;
+        nextMedia = media[currentIndex];
+        lightboxMedia.innerHTML = nextMedia.renderLightboxMedia();
+      }
+    }
+
+    // navigation au click
+
+    next.addEventListener("click", () => {
+      if (currentIndex == media.length - 1) {
+        currentIndex = 0;
+      } else {
+        currentIndex++;
+      }
+      nextMedia = media[currentIndex];
+      lightboxMedia.innerHTML = nextMedia.renderLightboxMedia();
+    });
+    prev.addEventListener("click", () => {
+      if (currentIndex == 0) {
+        currentIndex = media.length - 1;
+      } else {
+        currentIndex--;
+      }
+      previousMedia = media[currentIndex];
+      lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
+    });
+  }
 });
 
-function makeButtonSelectedVisible() {
-  buttonDate.classList.replace("visible", "invisible");
-  buttonTittle.classList.replace("visible", "invisible");
-  buttonPopularity.classList.replace("visible", "invisible");
-  buttonSelected.classList.replace("invisible", "visible");
-}
+// fermeture Lightbox
+
+closelightbox.addEventListener("click", () => {
+  lightbox.classList.replace("visible", "invisible");
+  header.classList.replace("invisible", "visible");
+  main.classList.replace("invisible", "visible");
+  body.classList.remove("overflow");
+  header.setAttribute("aria-hidden", "false");
+  main.setAttribute("aria-hidden", "false");
+});
+
+/** Affichage Template haut de la pages */
 
 function renderProfilInfo(photographer) {
   photographerProfil.innerHTML = `
-        <div id="profil-text">
-        <h1 id="profil-header">${photographer.name}</h1>
+        <div id="profil-text" >
+        <h1 id="profil-header"> ${photographer.name}</h1>
         <p>
-            <span class="ville">${photographer.city}, ${
-    photographer.country
-  }</span><br>
-            <span class="quote">${photographer.tagline}</span><br>
-            <span class="prix">${photographer.price}€/jour</span><br>
+            <span class="ville"><span class="screen-reader">ville</span>${
+              photographer.city
+            }, ${photographer.country}</span><br>
+            <span class="quote"><span class="screen-reader">citation</span>${
+              photographer.tagline
+            }</span><br>
+            <span class="prix"><span class="screen-reader">prix</span>${
+              photographer.price
+            }€/jour</span><br>
         </p>
        </div>
         <div class="profil-img"><img id="profil-img-photographes" src="${
@@ -129,8 +263,25 @@ function renderTag(photographer) {
     `;
 }
 
+/**
+ * Gestion Objects
+ *
+ */
+
+// Class Parent
+
 class Media {
-  constructor(id, photographerId, tags, likes, date, price, src, name) {
+  constructor(
+    id,
+    photographerId,
+    tags,
+    likes,
+    date,
+    price,
+    src,
+    photographerName,
+    photographerRates
+  ) {
     this.id = id;
     this.photographerId = photographerId;
     this.tags = tags;
@@ -138,43 +289,109 @@ class Media {
     this.date = date;
     this.price = price;
     this.src = src;
-    this.name = name;
+    this.photographerName = photographerName;
+    this.photographerRates = photographerRates;
   }
   createMediaContent() {}
   addLikes() {
-    return this.likes + 1;
+    this.likes++;
+    return this.likes;
   }
+  renderLightboxMedia() {}
 }
+
+// Class Enfant
 
 class Video extends Media {
   createMediaContent() {
-    return `<figure class="media">
-    <video src="../images/${this.name}/${this.src}"></video>
-    <figcaption class="media-info">
-        <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
+    return `<li class="media" aria-label="video,${this.src
+      .split(/[._]/)
+      .slice(1, -1)
+      .join(" ")}" > 
+      <a class="preview" href="#" data-id="${
+        this.id
+      }"  aria-label="agrandir la video">
+   <video ><source src="../images/${this.photographerName}/${
+      this.src
+    }" type="video/mp4"></video>  </a>
+    <p class="media-info" aria-label="informations">
+        <span><span class="screen-reader">titre</span>${this.src
+          .split(/[._]/)
+          .slice(1, -1)
+          .join(" ")}</span>
         <span>${this.price}€</span>
-          <span class="likes" data-id="${this.id}"><span>${
+          <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
-    }</span><i class="fas fa-heart"></i></span>
-    </figcaption>
-    </figure>`;
+    }</span><i class="fas fa-heart" role="button"aria-label="ajoutez un j'aime"></i></span>
+    </p>
+    </li>`;
+  }
+
+  renderLightboxMedia() {
+    return `<figure>
+         
+          <video  aria-label="vidéo,${this.src
+            .split(/[._]/)
+            .slice(1, -1)
+            .join(" ")}" controls width="250"
+            class="lightbox-img"
+            data-id="${this.id}">
+            <source src="../images/${this.photographerName}/${
+      this.src
+    }" type="video/mp4">
+         </video>
+          <figcaption class="media-info">${this.src
+            .split(/[._]/)
+            .slice(1, -1)
+            .join(" ")}
+            </figcaption>
+      </figure>
+      `;
   }
 }
 
 class Image extends Media {
   createMediaContent() {
-    return `<figure class="media">
-    <img src="../images/${this.name}/${this.src}" alt="">
-    <figcaption class="media-info">
+    return `<li class="media" aria-label="image,${this.src
+      .split(/[._]/)
+      .slice(1, -1)
+      .join(" ")}">
+   <img class="preview" role="link" aria-label="agrandir l'image" data-id="${
+     this.id
+   }" src="../images/${this.photographerName}/${this.src}" alt="${this.src
+      .split(/[._]/)
+      .slice(1, -1)
+      .join(" ")}">
+    <p class="media-info" aria-label="informations">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
-        <span class="likes" data-id="${this.id}"><span>${
+        <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
-    }</span><i class="fas fa-heart"></i></span>
-    </figcaption>
-    </figure>`;
+    }</span><i class="fas fa-heart" role="button" aria-label="ajoutez un j'aime"></i></span>
+    </p>
+    </li>`;
+  }
+
+  renderLightboxMedia() {
+    return `<figure>
+          <img
+            class="lightbox-img"
+            data-id="${this.id}" src="../images/${this.photographerName}/${
+      this.src
+    }"
+            alt="image,${this.src.split(/[._]/).slice(1, -1).join(" ")}"
+          />
+          <figcaption class="media-info">${this.src
+            .split(/[._]/)
+            .slice(1, -1)
+            .join(" ")}
+            </figcaption>
+      </figure>
+     `;
   }
 }
+
+// Détecte mon objet Media dans JSON et Affiche une video ou une image
 
 function factory(media) {
   if (media.hasOwnProperty("image")) {
@@ -186,7 +403,8 @@ function factory(media) {
       media.date,
       media.price,
       media.image,
-      getNameParams
+      media.photographerName,
+      media.photographerRates
     );
   } else if (media.hasOwnProperty("video")) {
     return new Video(
@@ -197,7 +415,147 @@ function factory(media) {
       media.date,
       media.price,
       media.video,
-      getNameParams
+      media.photographerName,
+      media.photographerRates
     );
+  }
+}
+
+// DOM contact form
+
+const mainTop = document.getElementById("main_top");
+const modalContainer = document.getElementById("modal-container");
+const openModal = document.getElementById("acces-modal");
+const form = document.querySelector("form");
+const closeModal = modalContainer.querySelector(".close");
+const formName = document.getElementById("name");
+const formLastName = document.getElementById("lastname");
+const formEmail = document.getElementById("email");
+const formMessage = document.getElementById("message");
+const emailRegx = new RegExp("^[a-zA-Z0-9.-_-]+@[a-zA-Z0-9-_-]+[.]+[a-z]+$");
+const errorName = document.getElementById("error-name");
+const errorLastName = document.getElementById("error-lastname");
+const errorEmail = document.getElementById("error-email");
+const errorMessage = document.getElementById("error-message");
+
+// Event ouverture Formulaire
+
+openModal.addEventListener("click", () => {
+  header.setAttribute("aria-hidden", "true");
+  mainTop.setAttribute("aria-hidden", "true");
+  filterMedia.setAttribute("aria-hidden", "true");
+  galerieMedia.setAttribute("aria-hidden", "true");
+  openModal.classList.add("invisible");
+  openModal.setAttribute("aria-expanded", "true");
+  modalContainer.classList.replace("invisible", "visible-flex");
+  body.classList.add("overflow");
+  formName.focus();
+});
+
+// Event Fermeture Formulaire
+
+closeModal.addEventListener("click", () => {
+  modalContainer.classList.replace("visible-flex", "invisible");
+  body.classList.remove("overflow");
+  openModal.setAttribute("aria-expanded", "false");
+  header.setAttribute("aria-hidden", "false");
+  mainTop.setAttribute("aria-hidden", "false");
+  filterMedia.setAttribute("aria-hidden", "false");
+  galerieMedia.setAttribute("aria-hidden", "false");
+  openModal.classList.remove("invisible");
+});
+
+// Event soumission Formulaire
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (formValidation() == true) {
+    modalContainer.classList.replace("visible-flex", "invisible");
+    let formComplited = {
+      prénom: formName.value,
+      nom: formLastName.value,
+      email: formEmail.value,
+    };
+    console.log(formComplited);
+    form.reset();
+    openModal.setAttribute("aria-expanded", "false");
+    header.setAttribute("aria-hidden", "false");
+    mainTop.setAttribute("aria-hidden", "false");
+    filterMedia.setAttribute("aria-hidden", "false");
+    galerieMedia.setAttribute("aria-hidden", "false");
+    openModal.classList.remove("invisible");
+    body.classList.remove("overflow");
+  } else {
+    fieldValidation();
+  }
+});
+
+// Vérifie que tous mes champs sont valides
+
+function formValidation() {
+  if (
+    isNameValid() &&
+    isLastNameValid() &&
+    isEmailValid() &&
+    isMessageValid()
+  ) {
+    return true;
+  }
+}
+
+// Vérifie si chaque champs est Valide et gère les erreurs
+
+function fieldValidation() {
+  isNameValid();
+  isLastNameValid();
+  isEmailValid();
+  isMessageValid();
+}
+
+function isNameValid() {
+  if (formName.value.trim().length >= 2) {
+    errorName.classList.replace("visible", "invisible");
+    formName.setAttribute("aria-invalid", "false");
+    formName.setAttribute("aria-describedby", "error-name");
+    return true;
+  } else {
+    formName.setAttribute("aria-invalid", "true");
+    errorName.classList.replace("invisible", "visible");
+  }
+}
+
+function isLastNameValid() {
+  if (formLastName.value.trim().length >= 2) {
+    errorLastName.classList.replace("visible", "invisible");
+    formLastName.setAttribute("aria-invalid", "false");
+    formLastName.setAttribute("aria-describedby", "error-lastname");
+    return true;
+  } else {
+    formLastName.setAttribute("aria-invalid", "true");
+    errorLastName.classList.replace("invisible", "visible");
+  }
+}
+
+function isEmailValid() {
+  if (emailRegx.test(formEmail.value)) {
+    errorEmail.classList.replace("visible", "invisible");
+    formEmail.setAttribute("aria-invalid", "false");
+    formEmail.setAttribute("aria-describedby", "error-email");
+    return true;
+  } else {
+    formEmail.setAttribute("aria-invalid", "true");
+    errorEmail.classList.replace("invisible", "visible");
+  }
+}
+
+function isMessageValid() {
+  if (formMessage.value.trim().length > 0) {
+    errorMessage.classList.replace("visible", "invisible");
+    formMessage.setAttribute("aria-invalid", "false");
+    formMessage.setAttribute("aria-describedby", "error-message");
+    return true;
+  } else {
+    formMessage.setAttribute("aria-invalid", "true");
+    errorMessage.classList.replace("invisible", "visible");
   }
 }

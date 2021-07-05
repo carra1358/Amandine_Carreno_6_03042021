@@ -12,71 +12,191 @@
     <title>photographes</title>
   </head>
   <body>
-    <header id="header-photographer" role="banner">
+    <header class="visible">
       <div id="logo">
-        <a href="index.html"
+        <a href="index.html" aria-label="alller à la page d'acceuil"
           ><img src="images/Logo/logo.png" alt="home page"
         /></a>
       </div>
-      <div id="photographer-profil"></div>
-      <div id="photographer-tag"></div>
     </header>
-    <main>
-      <div id="filter-media">
+    <main class="main visible">
+      <section id="main_top">
+        <div
+          id="photographer-profil"
+          aria-label="informations sur ce photographe"
+        ></div>
+        <div
+          id="photographer-tag"
+          role="navigation"
+          aria-label="retour vers la page d'accueil : sélectionnez un tag du photographe"
+        ></div>
+        <div id="photographer-count" role="complementary"></div>
+      </section>
+      <div id="filter-media" aria-label="Trier les media">
         <p>Trier par</p>
         <div id="filters">
-          <button id="selected_filter" class="visible">
+          <button
+            id="selected_filter"
+            role="button"
+            class="visible"
+            aria-controls="hidden_filters"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
             <span id="selected_text">Popularité</span>
-            <i id="chevron" class="fas fa-chevron-down" aria-hidden="true"></i>
+            <i class="fas fa-chevron-down" aria-hidden="true"></i>
           </button>
-          <div id="hidden_filters">
-            <button id="popularite" class="invisible">
+          <div
+            id="hidden_filters"
+            role="listbox"
+            aria-label="selectionnez une option de trie"
+          >
+            <button
+              id="popularite"
+              role="option"
+              aria-selected="true"
+              class="invisible"
+            >
               Popularité
-              <i
-                id="chevron"
-                class="fas fa-chevron-up"
-                aria-hidden="true"
-              ></i></button
+              <i class="fas fa-chevron-up" aria-hidden="true"></i></button
             ><span class="buttons-separator" aria-hidden="true"></span>
-            <button id="date" class="invisible">Date</button
+            <button
+              id="date"
+              role="option"
+              aria-selected="false"
+              class="invisible"
+            >
+              Date</button
             ><span class="buttons-separator" aria-hidden="true"></span>
-            <button id="titre" class="invisible">Titre</button>
+            <button
+              id="titre"
+              role="option"
+              aria-selected="false"
+              class="invisible"
+            >
+              Titre
+            </button>
           </div>
         </div>
       </div>
+      <ul id="galerie-media" aria-label="galerie" role="group"></ul>
+      <div id="contact-wrap">
+        <button
+          id="acces-modal"
+          aria-label="ouvrir le formulaire de contact"
+          aria-controls="modal-container"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+        >
+          Contactez-moi
+        </button>
+      </div>
+      <div
+        id="modal-container"
+        class="invisible"
+        role="dialog"
+        aria-label="formulaire"
+      >
+        <form method="POST" id="modal">
+          <h1 id="modal_title">
+            Contactez-moi<br /><span id="modal-photographer-name"></span>
+          </h1>
+          <div class="form-data">
+            <label id="champs_prenom" for="name">Prénom</label>
+            <input
+              role="textbox"
+              aria-labelledby="champs_prenom"
+              type="text"
+              name="name"
+              id="name"
+              aria-required="true"
+              aria-describedby="error-name"
+            />
+            <p id="error-name" class="invisible" role="alert">
+              Veuillez entrer 2 caractères ou plus dans le champs prénom.
+            </p>
+          </div>
+          <div class="form-data">
+            <label id="champs_nom" for="lastname">Nom</label>
+            <input
+              type="text"
+              role="textbox"
+              aria-labelledby="champs_nom"
+              name="lastname"
+              id="lastname"
+              aria-required="true"
+              aria-describedby="error-lastname"
+            />
+            <p id="error-lastname" class="invisible" role="alert">
+              Veuillez entrer 2 caractères ou plus dans le champs nom.
+            </p>
+          </div>
+          <div class="form-data">
+            <label id="champs_mail" for="email">Email</label>
+            <input
+              type="email"
+              role="textbox"
+              aria-labelledby="champs_mail"
+              name="email"
+              id="email"
+              aria-required="true"
+              aria-describedby="error-email"
+            />
+            <p id="error-email" class="invisible" role="alert">
+              Veuillez entrer un E-mail valide.
+            </p>
+          </div>
+          <div class="form-data">
+            <label id="champs_message" for="message">Votre message</label>
+            <textarea
+              name="message"
+              role="textbox"
+              aria-labelledby="champs_message"
+              id="message"
+              cols="30"
+              rows="10"
+              aria-required="true"
+              aria-describedby="error-message"
+            ></textarea>
 
-      <section id="galerie-media"></section>
-      <section id="contact-wrap">
-        <button id="acces-modal">Contactez-moi</button>
-      </section>
+            <p id="error-message" class="invisible" role="alert">
+              Ce message ne peut être envoyer vide.
+            </p>
+          </div>
+          <div id="modal-envoyer">
+            <input
+              type="submit"
+              value="Envoyer"
+              id="submit"
+              aria-label="envoyer le formulaire"
+            />
+          </div>
+          <div
+            class="close"
+            role="button"
+            aria-label="fermer le formulaire"
+          ></div>
+        </form>
+      </div>
     </main>
-    <div id="modal-container">
-      <form action="" method="GET" id="modal">
-        <h1>Contactez-moi<br /><span id="modal-photographer-name"></span></h1>
-
-        <div class="form-data">
-          <label for="name">Prénom</label>
-          <input type="text" name="name" id="name" />
-        </div>
-        <div class="form-data">
-          <label for="lastname">Nom</label>
-          <input type="text" name="lastname" id="lastname" />
-        </div>
-        <div class="form-data">
-          <label for="email">Email</label>
-          <input type="email" name="email" id="email" />
-        </div>
-        <div class="form-data">
-          <label for="message">Votre message</label>
-          <textarea name="message" id="message" cols="30" rows="10"></textarea>
-        </div>
-
-        <div id="modal-envoyer">
-          <input type="submit" value="Envoyer" id="submit" />
-        </div>
-        <div class="close"></div>
-      </form>
+    <div
+      id="lightbox"
+      role="dialog"
+      class="invisible"
+      aria-label="vue agrandie"
+    >
+      <div id="lightbox_content_wrapper">
+        <div id="lightbox_media"></div>
+        <a id="prev" href="#" aria-label="image précédente"
+          ><i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </a>
+        <a id="next" href="#" aria-label="image suivante"
+          ><i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </a>
+        <button class="close" aria-label="fermer la fenêtre de dialog"></button>
+      </div>
     </div>
+
     <script src="./dist/photographes.bundle.js"></script>
   </body>
 </html>

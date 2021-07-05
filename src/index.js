@@ -4,14 +4,17 @@ console.log(config.autoA11y); // true
 import "../styles/stylesheet.scss";
 import "../styles/sass/responsive.scss";
 
+// DOM
+
 const getData = () => import("./data/data.json");
 const template = document.getElementById("nos_photographes");
 const navigation = document.querySelector(".navigation");
-const tag = document.getElementsByClassName("tag");
 const querystring = window.location.search;
 const urlParams = new URLSearchParams(querystring);
 const hasTagParams = urlParams.has("tagValue");
 const getTagParams = urlParams.get("tagValue");
+
+/** Appel récupération des données et gestion de toutes les données JSON */
 
 getData().then((data) => {
   let photographer = data.default.photographers;
@@ -29,6 +32,8 @@ getData().then((data) => {
   FilterInMain(photographer);
 });
 
+// Affiche template pour la navigation header avec event de trie sur les tags
+
 function renderNav(x, photographer) {
   navigation.innerHTML += `<li><a href="#" class="tag" id="${x}"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>${x}</a></li>`;
   navigation.addEventListener("click", (event) => {
@@ -40,27 +45,35 @@ function renderNav(x, photographer) {
   });
 }
 
+// Affiche template Cards
+
 function renderPhotographerCard(element) {
   template.innerHTML += `
-<li class="card">
-<a href="photographes.html?id=${element.id}&name=${
-    element.name.split(" ")[0]
-  }&order=popularity">
+<li aria-label="profil de ${element.name}" class="card">
+<a href="photographes.html?id=${
+    element.id
+  }" aria-label="lien vers le profil de ${element.name}">
 <div class="profil-img"><img src="${
     "../images/PhotographersIDPhotos/" + element.portrait
   }" alt=""> </div> 
 <h2>${element.name}</h2>
 </a>
-<p>
-    <span class="ville">${element.city}, ${element.country}</span><br>
-    <span class="quote">${element.tagline}</span><br>
-    <span class="prix">${element.price}€/jour</span><br>
+<p aria-label="informations sur ce photographes">
+    <span class="ville"><span class="screen-reader">ville</span> ${
+      element.city
+    }, ${element.country}</span><br>
+    <span class="quote"><span class="screen-reader">citation</span> ${
+      element.tagline
+    }</span><br>
+    <span class="tarif"><span class="screen-reader">prix</span>${
+      element.price
+    }€/jour</span><br>
 </p>
-<div class="card-tagwrapper">
+<div class="card-tagwrapper" role="navigation" aria-label="navigation secondaire: tags du photographes">
    ${element.tags
      .map(
        (tag) =>
-         `<span class="screen-reader">tag</span> <a href="#" class="tag ${tag}"><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`
+         `<span class="screen-reader">tag</span> <a href="#" class="tag ${tag}" ><i class="fas fa-hashtag" aria-hidden="true"></i>${tag}</a>`
      )
      .join("")}
 </div>
@@ -68,6 +81,8 @@ function renderPhotographerCard(element) {
 
 `;
 }
+
+// event trie navigation Main sur les tags de chaque photographes
 
 function FilterInMain(photographer) {
   template.addEventListener("click", (event) => {
@@ -81,7 +96,7 @@ function FilterInMain(photographer) {
   });
 }
 
-/* Gestion affichage des photographes taggés depuis photographes.html */
+// Gestion affichage des photographes taggés depuis photographes.html
 
 function filterByTagInPhotographer(photographer) {
   let tagParamsFilter = photographer.filter((p) =>
