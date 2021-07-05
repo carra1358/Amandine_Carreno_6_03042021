@@ -40,10 +40,13 @@ let querystring = window.location.search;
 const urlParams = new URLSearchParams(querystring);
 const getIdParams = urlParams.get("id");
 
-//importation du json
+/** Appel récupération des données et gestion dynamique */
+
 const getData = () => import("./data/data.json");
 
 getData().then((data) => {
+  // trouve le photographe et les média correspondants
+
   const photographer = data.default.photographers.find(
     (p) => p.id == getIdParams
   );
@@ -59,6 +62,8 @@ getData().then((data) => {
   if (photographer === undefined) {
     window.location.href = "index.html";
   }
+
+  // Gestion event bouton de trie des média
 
   buttonSelected.addEventListener("click", () => {
     buttonDate.classList.replace("invisible", "visible");
@@ -123,17 +128,18 @@ getData().then((data) => {
   modalPhotographerName.innerHTML = `${photographer.name}`;
 
   function createMediaAndInteractions(media) {
-    // render Media in the galerie
+    // Affiche media dans la galerie
 
     galerieMedia.innerHTML = media.map((m) => m.createMediaContent()).join(" ");
 
-    // render photographer Likes and rate per day
+    // Affiche template informations complémentaires
 
     let sumOfLikes = media.map((m) => m.likes).reduce((a, b) => a + b, 0);
     const ratePerDay = media.map((m) => m.photographerRates)[0];
     photographerCount.innerHTML = `<p aria-label="total des j'aime"><span id="new-sum-of-likes">${sumOfLikes}</span><i class="fas fa-heart" aria-hidden="true"></i></p><p aria-label="tarif">${ratePerDay}/jour</p>`;
     let newSumOfLikes = document.getElementById("new-sum-of-likes");
-    // add interaction with likes buttons
+
+    // Event ajout 1 like sur chaque icone Likes
 
     const allLikes = galerieMedia.querySelectorAll(".likes");
     allLikes.forEach((el) =>
@@ -146,7 +152,7 @@ getData().then((data) => {
       })
     );
 
-    // create lightbox
+    // Event génère lightbox
 
     const allMedia = galerieMedia.querySelectorAll(".preview");
 
@@ -158,16 +164,16 @@ getData().then((data) => {
         main.classList.replace("visible", "invisible");
         lightbox.classList.replace("invisible", "visible");
         body.classList.add("overflow");
-        singleMedia = media.find((m) => m.id == parseInt(el.dataset.id));
-        //singleMedia = media.find((m) => m.id == e.target.id);
+        let findSingleMedia = parseInt(el.dataset.id);
+        singleMedia = media.find((m) => m.id == findSingleMedia);
         lightboxMedia.innerHTML = singleMedia.renderLightboxMedia();
-        currentIndex = media.findIndex(
-          (el) => el.id == parseInt(el.dataset.id)
-        );
+        currentIndex = media.findIndex((el) => el.id == findSingleMedia);
       });
     });
 
-    // lightbox navigation
+    /** Navigation de la Lightbox */
+
+    // naviagtion flêche droite et gauche
 
     document.onkeydown = navigationKey;
 
@@ -175,17 +181,17 @@ getData().then((data) => {
       e = e || window.event;
 
       if (e.keyCode == "37" && lightbox.classList.contains("visible")) {
-        // left arrow
         currentIndex--;
         previousMedia = media[currentIndex];
         lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
       } else if (e.keyCode == "39" && lightbox.classList.contains("visible")) {
-        // right arrow
         currentIndex++;
         nextMedia = media[currentIndex];
         lightboxMedia.innerHTML = nextMedia.renderLightboxMedia();
       }
     }
+
+    // navigation au click
 
     next.addEventListener("click", () => {
       if (currentIndex == media.length - 1) {
@@ -207,6 +213,19 @@ getData().then((data) => {
     });
   }
 });
+
+// fermeture Lightbox
+
+closelightbox.addEventListener("click", () => {
+  lightbox.classList.replace("visible", "invisible");
+  header.classList.replace("invisible", "visible");
+  main.classList.replace("invisible", "visible");
+  body.classList.remove("overflow");
+  header.setAttribute("aria-hidden", "false");
+  main.setAttribute("aria-hidden", "false");
+});
+
+/** Affichage Template haut de la pages */
 
 function renderProfilInfo(photographer) {
   photographerProfil.innerHTML = `
@@ -244,6 +263,13 @@ function renderTag(photographer) {
     `;
 }
 
+/**
+ * Gestion Objects
+ *
+ */
+
+// Class Parent
+
 class Media {
   constructor(
     id,
@@ -273,6 +299,8 @@ class Media {
   }
   renderLightboxMedia() {}
 }
+
+// Class Enfant
 
 class Video extends Media {
   createMediaContent() {
@@ -363,6 +391,8 @@ class Image extends Media {
   }
 }
 
+// Détecte mon objet Media dans JSON et Affiche une video ou une image
+
 function factory(media) {
   if (media.hasOwnProperty("image")) {
     return new Image(
@@ -391,16 +421,8 @@ function factory(media) {
   }
 }
 
-closelightbox.addEventListener("click", () => {
-  lightbox.classList.replace("visible", "invisible");
-  header.classList.replace("invisible", "visible");
-  main.classList.replace("invisible", "visible");
-  body.classList.remove("overflow");
-  header.setAttribute("aria-hidden", "false");
-  main.setAttribute("aria-hidden", "false");
-});
-
 // DOM contact form
+
 const mainTop = document.getElementById("main_top");
 const modalContainer = document.getElementById("modal-container");
 const openModal = document.getElementById("acces-modal");
@@ -416,6 +438,8 @@ const errorLastName = document.getElementById("error-lastname");
 const errorEmail = document.getElementById("error-email");
 const errorMessage = document.getElementById("error-message");
 
+// Event ouverture Formulaire
+
 openModal.addEventListener("click", () => {
   header.setAttribute("aria-hidden", "true");
   mainTop.setAttribute("aria-hidden", "true");
@@ -429,6 +453,8 @@ openModal.addEventListener("click", () => {
   formName.focus();
 });
 
+// Event Fermeture Formulaire
+
 closeModal.addEventListener("click", () => {
   modalContainer.classList.replace("visible-flex", "invisible");
   body.classList.remove("overflow");
@@ -440,6 +466,8 @@ closeModal.addEventListener("click", () => {
   galerieMedia.setAttribute("aria-hidden", "false");
   openModal.classList.remove("invisible");
 });
+
+// Event soumission Formulaire
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -465,6 +493,8 @@ form.addEventListener("submit", (e) => {
   }
 });
 
+// Vérifie que tous mes champs sont valides
+
 function formValidation() {
   if (
     isNameValid() &&
@@ -473,10 +503,10 @@ function formValidation() {
     isMessageValid()
   ) {
     return true;
-  } else {
-    return false;
   }
 }
+
+// Vérifie si chaque champs est Valide et gère les erreurs
 
 function fieldValidation() {
   isNameValid();
