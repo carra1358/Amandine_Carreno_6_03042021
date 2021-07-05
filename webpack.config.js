@@ -4,7 +4,7 @@ const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 
 module.exports = {
-  mode: "development",
+  mode: process.env.mode,
 
   entry: {
     index: "./src/index.js",
