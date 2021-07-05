@@ -14,10 +14,7 @@ const urlParams = new URLSearchParams(querystring);
 const hasTagParams = urlParams.has("tagValue");
 const getTagParams = urlParams.get("tagValue");
 
-/**
- * Appel récupération des données
- * et gestion éléments dynamiques.
- */
+/** Appel récupération des données et gestion de toutes les données JSON */
 
 getData().then((data) => {
   let photographer = data.default.photographers;
