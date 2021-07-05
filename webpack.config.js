@@ -6,8 +6,6 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 module.exports = {
   mode: "development",
 
-  watch: true,
-
   entry: {
     index: "./src/index.js",
     photographes: "./src/photographes.js",

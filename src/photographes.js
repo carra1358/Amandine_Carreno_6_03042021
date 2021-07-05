@@ -449,7 +449,6 @@ openModal.addEventListener("click", () => {
   openModal.setAttribute("aria-expanded", "true");
   modalContainer.classList.replace("invisible", "visible-flex");
   body.classList.add("overflow");
-  main.classList.remove("main");
   formName.focus();
 });
 
@@ -458,7 +457,6 @@ openModal.addEventListener("click", () => {
 closeModal.addEventListener("click", () => {
   modalContainer.classList.replace("visible-flex", "invisible");
   body.classList.remove("overflow");
-  main.classList.add("main");
   openModal.setAttribute("aria-expanded", "false");
   header.setAttribute("aria-hidden", "false");
   mainTop.setAttribute("aria-hidden", "false");
@@ -487,7 +485,6 @@ form.addEventListener("submit", (e) => {
     galerieMedia.setAttribute("aria-hidden", "false");
     openModal.classList.remove("invisible");
     body.classList.remove("overflow");
-    main.classList.add("main");
   } else {
     fieldValidation();
   }
