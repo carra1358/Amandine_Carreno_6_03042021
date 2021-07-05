@@ -4,14 +4,20 @@ console.log(config.autoA11y); // true
 import "../styles/stylesheet.scss";
 import "../styles/sass/responsive.scss";
 
+// DOM
+
 const getData = () => import("./data/data.json");
 const template = document.getElementById("nos_photographes");
 const navigation = document.querySelector(".navigation");
-const tag = document.getElementsByClassName("tag");
 const querystring = window.location.search;
 const urlParams = new URLSearchParams(querystring);
 const hasTagParams = urlParams.has("tagValue");
 const getTagParams = urlParams.get("tagValue");
+
+/**
+ * Appel récupération des données
+ * et gestion éléments dynamiques.
+ */
 
 getData().then((data) => {
   let photographer = data.default.photographers;
@@ -29,6 +35,8 @@ getData().then((data) => {
   FilterInMain(photographer);
 });
 
+// Affiche template pour la navigation header avec event de trie sur les tags
+
 function renderNav(x, photographer) {
   navigation.innerHTML += `<li><a href="#" class="tag" id="${x}"><span class="screen-reader">tag</span><i class="fas fa-hashtag" aria-hidden="true"></i>${x}</a></li>`;
   navigation.addEventListener("click", (event) => {
@@ -39,6 +47,8 @@ function renderNav(x, photographer) {
     filterPhotographers.forEach((element) => renderPhotographerCard(element));
   });
 }
+
+// Affiche template Cards
 
 function renderPhotographerCard(element) {
   template.innerHTML += `
@@ -75,6 +85,8 @@ function renderPhotographerCard(element) {
 `;
 }
 
+// event trie navigation Main sur les tags de chaque photographes
+
 function FilterInMain(photographer) {
   template.addEventListener("click", (event) => {
     let filterPhotographers = photographer.filter((t) =>
@@ -87,7 +99,7 @@ function FilterInMain(photographer) {
   });
 }
 
-/* Gestion affichage des photographes taggés depuis photographes.html */
+// Gestion affichage des photographes taggés depuis photographes.html
 
 function filterByTagInPhotographer(photographer) {
   let tagParamsFilter = photographer.filter((p) =>
