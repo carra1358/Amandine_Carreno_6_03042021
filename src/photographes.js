@@ -280,7 +280,8 @@ class Media {
     price,
     src,
     photographerName,
-    photographerRates
+    photographerRates,
+    altText
   ) {
     this.id = id;
     this.photographerId = photographerId;
@@ -291,6 +292,7 @@ class Media {
     this.src = src;
     this.photographerName = photographerName;
     this.photographerRates = photographerRates;
+    this.altText = altText;
   }
   createMediaContent() {}
   addLikes() {
@@ -304,21 +306,15 @@ class Media {
 
 class Video extends Media {
   createMediaContent() {
-    return `<li class="media" aria-label="video,${this.src
-      .split(/[._]/)
-      .slice(1, -1)
-      .join(" ")}" > 
-      <a class="preview" href="#" data-id="${
-        this.id
-      }"  aria-label="agrandir la video">
-   <video ><source src="../images/${this.photographerName}/${
-      this.src
-    }" type="video/mp4"></video>  </a>
+    return `<li class="media"> 
+      <a class="preview" href="#" data-id="${this.id}"  aria-label="${
+      this.altText
+    },vue agrandie">
+   <video title="${this.altText}" ><source src="../images/${
+      this.photographerName
+    }/${this.src}" type="video/mp4"></video>  </a>
     <p class="media-info" aria-label="informations">
-        <span><span class="screen-reader">titre</span>${this.src
-          .split(/[._]/)
-          .slice(1, -1)
-          .join(" ")}</span>
+        <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
           <span class="likes" data-id="${this.id}" aria-label="j'aime"><span>${
       this.likes
@@ -330,10 +326,7 @@ class Video extends Media {
   renderLightboxMedia() {
     return `<figure>
          
-          <video  aria-label="vidéo,${this.src
-            .split(/[._]/)
-            .slice(1, -1)
-            .join(" ")}" controls width="250"
+          <video  title="${this.altText}" controls width="250"
             class="lightbox-img"
             data-id="${this.id}">
             <source src="../images/${this.photographerName}/${
@@ -352,16 +345,12 @@ class Video extends Media {
 
 class Image extends Media {
   createMediaContent() {
-    return `<li class="media" aria-label="image,${this.src
-      .split(/[._]/)
-      .slice(1, -1)
-      .join(" ")}">
-   <img class="preview" role="link" aria-label="agrandir l'image" data-id="${
-     this.id
-   }" src="../images/${this.photographerName}/${this.src}" alt="${this.src
-      .split(/[._]/)
-      .slice(1, -1)
-      .join(" ")}">
+    return `<li class="media">
+   <img class="preview" role="link" aria-label="${
+     this.altText
+   },vue agrandie" data-id="${this.id}" src="../images/${
+      this.photographerName
+    }/${this.src}" alt="${this.altText}">
     <p class="media-info" aria-label="informations">
         <span>${this.src.split(/[._]/).slice(1, -1).join(" ")}</span>
         <span>${this.price}€</span>
@@ -379,7 +368,7 @@ class Image extends Media {
             data-id="${this.id}" src="../images/${this.photographerName}/${
       this.src
     }"
-            alt="image,${this.src.split(/[._]/).slice(1, -1).join(" ")}"
+            alt="${this.altText}"
           />
           <figcaption class="media-info">${this.src
             .split(/[._]/)
@@ -404,7 +393,8 @@ function factory(media) {
       media.price,
       media.image,
       media.photographerName,
-      media.photographerRates
+      media.photographerRates,
+      media.altText
     );
   } else if (media.hasOwnProperty("video")) {
     return new Video(
@@ -416,7 +406,8 @@ function factory(media) {
       media.price,
       media.video,
       media.photographerName,
-      media.photographerRates
+      media.photographerRates,
+      media.altText
     );
   }
 }
