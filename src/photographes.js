@@ -306,7 +306,10 @@ class Media {
 
 class Video extends Media {
   createMediaContent() {
-    return `<li class="media"> 
+    return `<li class="media"  aria-label="vidéo ${this.src
+      .split(/[._]/)
+      .slice(1, -1)
+      .join(" ")}"> 
       <a class="preview" href="#" data-id="${this.id}"  aria-label="${
       this.altText
     },vue agrandie">
@@ -345,7 +348,10 @@ class Video extends Media {
 
 class Image extends Media {
   createMediaContent() {
-    return `<li class="media">
+    return `<li class="media" aria-label="photographie ${this.src
+      .split(/[._]/)
+      .slice(1, -1)
+      .join(" ")}">
    <img class="preview" role="link" aria-label="${
      this.altText
    },vue agrandie" data-id="${this.id}" src="../images/${
