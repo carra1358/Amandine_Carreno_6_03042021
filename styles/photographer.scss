@@ -74,7 +74,7 @@ main {
 
 #contact-wrap {
   @include align-text-center;
-  width: 86%;
+  width: 100%;
   position: fixed;
   top: 90%;
   margin-top: $margin-content;
@@ -162,7 +162,7 @@ main {
   display: none;
 }
 
-/* modal */
+/* Formulaire */
 
 #modal-container {
   justify-content: center;
