@@ -22,13 +22,17 @@ header {
   margin: $margin-content;
 }
 
+main {
+  padding-bottom: 15%;
+}
+
 #photographer-profil {
   display: flex;
   font-family: $main-font;
   .profil-img {
     width: 50%;
     height: 100%;
-    text-align: left;
+    text-align: right;
   }
 }
 
@@ -92,10 +96,9 @@ header {
   -o-border-radius: 5px;
 }
 
-.main {
+.main_content {
   margin: 10% $margin-content;
   margin-top: 1%;
-  padding-bottom: 15%;
 }
 
 .media {

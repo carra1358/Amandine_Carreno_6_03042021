@@ -6,6 +6,10 @@
     margin-bottom: 0;
   }
 
+  main {
+    padding-bottom: 0;
+  }
+
   #header-photographer {
     display: flex;
     flex-direction: column;
@@ -77,9 +81,10 @@
     }
   }
 
-  .main {
-    margin-bottom: 0;
-    padding-bottom: 0;
+  .main_content {
+    margin: $margin-content;
+    margin-bottom: 1%;
+    margin-top: 2%;
   }
 
   #galerie-media {
@@ -111,6 +116,7 @@
     font-family: $main-font;
     font-size: 1em;
     margin-top: 2%;
+    margin-bottom: 2%;
   }
 
   #filters {
@@ -220,7 +226,6 @@
   #modal-container {
     background-color: rgba(255, 255, 255, 0.459);
     padding-bottom: 60%;
-    top: 3%;
   }
 
   #modal {
@@ -229,7 +234,7 @@
     height: 80vh;
     padding: 3%;
     padding-bottom: 4%;
-    padding-top: 2%;
+    padding-top: 3%;
     border-radius: 5px;
 
     #submit {
@@ -259,6 +264,6 @@
 
   .close {
     right: 27%;
-    top: 3%;
+    top: 2%;
   }
 } ;
