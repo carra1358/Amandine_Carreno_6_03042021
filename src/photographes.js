@@ -147,7 +147,6 @@ getData().then((data) => {
         let likes = parseInt(el.dataset.id);
         let findM = media.find((m) => m.id == likes);
         el.firstChild.innerHTML = findM.addLikes();
-        sumOfLikes = sumOfLikes + 1;
         newSumOfLikes.innerHTML = sumOfLikes++;
       })
     );
