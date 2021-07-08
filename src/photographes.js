@@ -472,6 +472,7 @@ form.addEventListener("submit", (e) => {
       prénom: formName.value,
       nom: formLastName.value,
       email: formEmail.value,
+      message: formMessage.value,
     };
     console.log(formComplited);
     form.reset();
