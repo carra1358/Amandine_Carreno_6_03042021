@@ -179,11 +179,19 @@ getData().then((data) => {
     function navigationKey(e) {
       e = e || window.event;
 
-      if (e.keyCode == "37" && lightbox.classList.contains("visible")) {
+      if (
+        e.keyCode == "37" &&
+        lightbox.classList.contains("visible") &&
+        currentIndex > 0
+      ) {
         currentIndex--;
         previousMedia = media[currentIndex];
         lightboxMedia.innerHTML = previousMedia.renderLightboxMedia();
-      } else if (e.keyCode == "39" && lightbox.classList.contains("visible")) {
+      } else if (
+        e.keyCode == "39" &&
+        lightbox.classList.contains("visible") &&
+        currentIndex < media.length - 1
+      ) {
         currentIndex++;
         nextMedia = media[currentIndex];
         lightboxMedia.innerHTML = nextMedia.renderLightboxMedia();
